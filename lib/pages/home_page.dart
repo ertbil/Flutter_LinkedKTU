@@ -8,7 +8,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ProductRepo productRepo = ref.watch(productProvider);
     AsyncValue<List<Product>> products = ref.watch(productListProvider);
 
     return Scaffold(

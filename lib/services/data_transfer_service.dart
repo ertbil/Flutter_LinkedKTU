@@ -14,7 +14,7 @@ class DataService {
 
   Future<List<Product>> getProducts() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<Product>((e) => Product.fromMap(e)).toList();
     } else {
@@ -25,7 +25,7 @@ class DataService {
 
   Future<List<Lecturer>> getLecturers() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<Lecturer>((e) => Lecturer.fromMap(e)).toList();
     } else {
@@ -36,7 +36,7 @@ class DataService {
 
   Future<List<Student>> getStudents() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<Student>((e) => Student.fromMap(e)).toList();
     } else {
@@ -47,7 +47,7 @@ class DataService {
 
   Future<List<Employer>> getEmployers() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<Employer>((e) => Employer.fromMap(e)).toList();
     } else {
@@ -58,7 +58,7 @@ class DataService {
 
   Future<List<Post>> getPosts() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<Post>((e) => Post.fromMap(e)).toList();
     } else {
@@ -69,7 +69,7 @@ class DataService {
 
   Future<List<JobPost>> getJobPosts() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<JobPost>((e) => JobPost.fromMap(e)).toList();
     } else {
@@ -80,7 +80,7 @@ class DataService {
 
   Future<List<ContactInfo>> getContactInfos() async {
     http.Response response = await http.get(Uri.parse('$baseUrl/products'));
-    if (response.statusCode <= 200 && response.statusCode >= 400) {
+    if (response.statusCode >= 200 && response.statusCode < 400) {
       final l = jsonDecode(response.body);
       return l.map<ContactInfo>((e) => ContactInfo.fromMap(e)).toList();
     } else {
