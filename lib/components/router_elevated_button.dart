@@ -18,13 +18,13 @@ class RouterElevatedButton extends StatelessWidget {
   pushReplacementRoute(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => page!),
+      MaterialPageRoute(builder: (context) => page),
     );
   }
   pushRoute(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => page!),
+      MaterialPageRoute(builder: (context) => page),
     );
   }
 

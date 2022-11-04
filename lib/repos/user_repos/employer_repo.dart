@@ -4,13 +4,7 @@ import '../../models/user_models/employer_model.dart';
 import '../../services/data_transfer_service.dart';
 
 class EmployerRepo extends ChangeNotifier {
-  List<Employer> _employers = [];
-
-  List<Employer> get employers => _employers;
-
-  set employers(List<Employer> employers) {
-    _employers = employers;
-  }
+  List<Employer> employers = [];
   final DataService converter;
 
   EmployerRepo(this.converter);
