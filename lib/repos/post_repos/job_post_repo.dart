@@ -4,13 +4,7 @@ import '../../models/post_models/job_post_model.dart';
 import '../../services/data_transfer_service.dart';
 
 class JobPostRepo extends ChangeNotifier {
-  List<JobPost> _jobPosts = [];
-
-  List<JobPost> get jobPosts => _jobPosts;
-
-  set jobPosts(List<JobPost> jobPosts) {
-    _jobPosts = jobPosts;
-  }
+  List<JobPost> jobPosts = [];
   final DataService converter;
 
   JobPostRepo(this.converter);

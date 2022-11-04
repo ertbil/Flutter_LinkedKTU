@@ -4,13 +4,7 @@ import '../../models/user_models/lecturer_model.dart';
 import '../../services/data_transfer_service.dart';
 
 class LecturerRepo extends ChangeNotifier {
-  List<Lecturer> _lecturers = [];
-
-  List<Lecturer> get lecturers => _lecturers;
-
-  set lecturers(List<Lecturer> lecturers) {
-    _lecturers = lecturers;
-  }
+  List<Lecturer> lecturers = [];
   final DataService converter;
 
   LecturerRepo(this.converter);

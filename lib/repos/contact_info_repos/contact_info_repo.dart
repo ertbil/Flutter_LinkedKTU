@@ -4,13 +4,7 @@ import '../../models/contact_models/contact_info_model.dart';
 import '../../services/data_transfer_service.dart';
 
 class ContactInfoRepo extends ChangeNotifier {
-  List<ContactInfo> _contactInfos = [];
-
-  List<ContactInfo> get contactInfos => _contactInfos;
-
-  set contactInfos(List<ContactInfo> contactInfos) {
-    _contactInfos = contactInfos;
-  }
+  List<ContactInfo> contactInfos = [];
   final DataService converter;
 
   ContactInfoRepo(this.converter);
