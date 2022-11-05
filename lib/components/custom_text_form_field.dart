@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   Icon prefixIcon;
   Icon? suffixIcon;
   bool isHidden;
+  double? padding;
 
   CustomTextFormField({
     Key? key,
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.prefixIcon,
     this.suffixIcon,
     this.isHidden = true,
+    this.padding = 8.0,
   }) : super(key: key);
 
   @override
@@ -38,35 +40,40 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (value) {
-        //TODO add validation
-        return null;
-      },
-      controller: widget.controller,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: BorderSide.none,
+    return Padding(
+      padding:  EdgeInsets.all(widget.padding??8.0),
+      child: TextFormField(
+        obscureText: widget.isHidden && widget.isPassword,
+        validator: (value) {
+          //TODO add validation
+          return null;
+        },
+        controller: widget.controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide.none,
+          ),
+          labelText: widget.hintText,
+          floatingLabelStyle: const TextStyle(
+            height: 4,
+          ),
+          filled: true,
+          fillColor: Colors.grey[200],
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.isHidden = !widget.isHidden;
+
+                    });
+                  },
+                  icon: widget.isHidden
+                      ? const Icon(Icons.remove_red_eye_rounded)
+                      : const Icon(Icons.remove_red_eye_outlined))
+              : null,
         ),
-        labelText: widget.hintText,
-        floatingLabelStyle: const TextStyle(
-          height: 4,
-        ),
-        filled: true,
-        fillColor: Colors.grey[200],
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.isPassword
-            ? IconButton(
-                onPressed: () {
-                  setState(() {
-                    widget.isHidden = !widget.isHidden;
-                  });
-                },
-                icon: widget.isHidden
-                    ? const Icon(Icons.remove_red_eye_rounded)
-                    : const Icon(Icons.remove_red_eye_outlined))
-            : null,
       ),
     );
   }

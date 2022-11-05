@@ -7,6 +7,7 @@ import '../services/data_transfer_service.dart';
 class ProductRepo extends ChangeNotifier{
   List<Product> places = [];
   final DataService converter;
+
   ProductRepo(this.converter);
 
   Future<List<Product>> getAll() async {

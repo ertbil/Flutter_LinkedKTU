@@ -1,59 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_ym/models/product_model.dart';
+import '../components/custom_list_view.dart';
+import '../components/drawer.dart';
 import '../repos/product_repo.dart';
+import '../repos/user_repos/lecturer_repo.dart';
 
-class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<Product>> products = ref.watch(productListProvider);
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  int _selectedIndex = 0;
+
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    Column(
+      children: [
+        Expanded(
+          child: CustomListView(productListProvider),
+        ),
+      ],
+    ),
+    Column(
+      children: [
+        Expanded(
+          child: CustomListView(lecturerListProvider),
+        ),
+      ],
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                products = ref.watch(productListProvider);
-              },
-              child: ListView(
-
-                children: products.when(
-                  data: (data) => data
-                      .map(
-                        (product) => ListTile(
-                          leading:
-                              const CircleAvatar(child: Icon(Icons.person)),
-                          title: Text(product.name),
-                          subtitle: Text(product.description),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_forward_outlined),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                  loading: () => const [
-                    Center(
-                        child: SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: CircularProgressIndicator()
-                        )
-                    )
-                  ],
-                  error: (error, stack) => [Text(error.toString())],
-                ),
-              ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Business',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
+        key: _scaffoldKey,
+        drawer: const CustomDrawer(),
+        appBar: AppBar(
+          title: const Text('Home Page'),
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              _scaffoldKey.currentState!.openDrawer();
+            },
           ),
-        ],
-      ),
-    );
+        ),
+        body: Center(child: _widgetOptions.elementAt(_selectedIndex)));
   }
 }

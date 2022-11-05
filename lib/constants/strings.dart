@@ -26,6 +26,8 @@ class Strings {
   static const signUpScreenDescription = 'Please fill in the form to create an account';
   static const loginScreenDescription = 'Please fill in the form to login';
   static const signUpScreenDescription2 = 'Already have an account?';
+  static const confirmPassword = "Confirm Password";
+  static const registerPageTitle = "Register Page";
 
 
 
