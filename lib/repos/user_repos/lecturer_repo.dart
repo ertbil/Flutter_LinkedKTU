@@ -16,13 +16,12 @@ class LecturerRepo extends ChangeNotifier {
   }
 }
 
-final productProvider = ChangeNotifierProvider(
-  (ref) {
+final lecturerProvider = ChangeNotifierProvider((ref) {
     return LecturerRepo(ref.watch(dataServiceProvider));
   },
 );
 
-final FutureProvider<List<Lecturer>> productListProvider =
+final FutureProvider<List<Lecturer>> lecturerListProvider =
     FutureProvider((ref) async {
   return ref.read(dataServiceProvider).getLecturers();
 });

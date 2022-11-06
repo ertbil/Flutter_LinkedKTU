@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:project_ym/components/custom_text_form_field.dart';
+import 'package:project_ym/components/logo_and_name.dart';
 import 'package:project_ym/components/router_elevated_button.dart';
 import 'package:project_ym/constants/strings.dart';
 import 'package:project_ym/pages/register_page.dart';
@@ -33,26 +34,8 @@ class LoginPage extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                height: MediaQuery.of(context).size.width * 0.2,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(Strings.logoPath),
-                                )),
-                            const Text(
-                              Strings.appName,
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
+                      children:  [
+                       LogoAndName(textColor: Colors.white),
                       ],
                     ),
                   ]),
@@ -60,19 +43,13 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomTextFormField(
-                      hintText: Strings.userName,
-                      prefixIcon: const Icon(Icons.person)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomTextFormField(
-                      hintText: Strings.password,
-                      prefixIcon: const Icon(Icons.lock),
-                      isPassword: true),
-                ),
+                CustomTextFormField(
+                    hintText: Strings.userName,
+                    prefixIcon: const Icon(Icons.person)),
+                CustomTextFormField(
+                    hintText: Strings.password,
+                    prefixIcon: const Icon(Icons.lock),
+                    isPassword: true),
                 Row(
                   children: [
                     TextButton(
@@ -84,12 +61,13 @@ class LoginPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    RouterElevatedButton(page: HomePage(), text: Strings.login),
-                    SizedBox(
+                  children:  [
+                    RouterElevatedButton(page: HomePage(), text: Strings.login, pushReplacement: true, ),
+                    const SizedBox(
                       width: 20,
                     ),
-                    RouterElevatedButton(
+                    const RouterElevatedButton(
+                      pushReplacement: true,
                         page: RegisterPage(), text: Strings.signUp),
                   ],
                 ),

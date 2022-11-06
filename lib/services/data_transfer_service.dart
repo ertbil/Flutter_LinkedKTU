@@ -58,60 +58,83 @@ class DataService {
 
   //https://stackoverflow.com/a/55237197/17817088  burada cevap olabilir
 
-  Future<List<Product>> getProducts() async =>
-      DataService.get(Endpoints.products)
-          .map<Product>((e) => Product.fromMap(e))
+  Future<List<Product>> getProducts() async {
+    final l = await DataService.get(Endpoints.products);
+    return l.map<Product>((e) => Product.fromMap(e)).toList();
+  }
+
+
+
+  Future<List<Post>> getPosts() async {
+    final l = await DataService.get(Endpoints.posts);
+    return l.map<Post>((e) => Post.fromMap(e)).toList();
+  }
+
+  Future<List<Student>> getStudents() async {
+    final l = await DataService.get(Endpoints.students);
+    return l.map<Student>((e) => Student.fromMap(e))
           .toList();
+  }
 
-  Future<List<Post>> getPosts() async => DataService.get(Endpoints.posts)
-      .map<Post>((e) => Post.fromMap(e))
-      .toList();
+  Future<List<Lecturer>> getLecturers() async {
+    final l = await DataService.get(Endpoints.lecturer);
+    return l.map<Lecturer>((e) => Lecturer.fromMap(e)).toList();
+  }
 
-  Future<List<Student>> getStudents() async =>
-      DataService.get(Endpoints.students)
+  Future<List<JobPost>> getJobPosts() async {
+    final l = await DataService.get(Endpoints.jobposts);
+    return l.map<JobPost>((e) => JobPost.fromMap(e)).toList();
+  }
+
+
+  Future<List<Employer>> getEmployers() async {
+    final l = await DataService.get(Endpoints.employers);
+    return l.map<Employer>((e) => Employer.fromMap(e)).toList();
+  }
+
+  Future<List<ContactInfo>> getContactInfos() async {
+    final l = await DataService.get(Endpoints.contactinfos);
+    return l.map<ContactInfo>((e) => ContactInfo.fromMap(e)).toList();
+  }
+
+
+
+ Future<List<Product>> getProduct (int id) async {
+    final l = await DataService.get('${Endpoints.products}/$id');
+    return l.map<Product>((e) => Product.fromMap(e)).toList();
+  }
+
+  Future<List<Post>> getPost (int id) async {
+    final l = await DataService.get('${Endpoints.posts}/$id');
+    return l.map<Post>((e) => Post.fromMap(e)).toList();
+  }
+
+  Future<List<Student>> getStudent (int id) async {
+    final l = await DataService.get('${Endpoints.students}/$id');
+    return l
           .map<Student>((e) => Student.fromMap(e))
           .toList();
+  }
 
-  Future<List<Lecturer>> getLecturers() async =>
-      DataService.get(Endpoints.lecturers)
-          .map<Lecturer>((e) => Lecturer.fromMap(e))
-          .toList();
 
-  Future<List<Employer>> getEmployers() async =>
-      DataService.get(Endpoints.employers)
-          .map<Employer>((e) => Employer.fromMap(e))
-          .toList();
 
-  Future<List<JobPost>> getJobPosts() async =>
-      DataService.get(Endpoints.jobposts)
-          .map<JobPost>((e) => JobPost.fromMap(e))
-          .toList();
-
-  Future<List<ContactInfo>> getContactInfos() async =>
-      DataService.get(Endpoints.contactinfos)
-          .map<ContactInfo>((e) => ContactInfo.fromMap(e))
-          .toList();
-
-  Future<Product> getProduct(int id) async =>
-      Product.fromMap(await DataService.get('${Endpoints.products}/$id'));
-
-  Future<Post> getPost(int id) async =>
-      Post.fromMap(await DataService.get('${Endpoints.posts}/$id'));
-
-  Future<Student> getStudent(int id) async =>
-      Student.fromMap(await DataService.get('${Endpoints.students}/$id'));
-
-  Future<Lecturer> getLecturer(int id) async =>
-      Lecturer.fromMap(await DataService.get('${Endpoints.lecturers}/$id'));
-
-  Future<Employer> getEmployer(int id) async =>
-      Employer.fromMap(await DataService.get('${Endpoints.employers}/$id'));
-
-  Future<JobPost> getJobPost(int id) async =>
-      JobPost.fromMap(await DataService.get('${Endpoints.jobposts}/$id'));
-
-  Future<ContactInfo> getContactInfo(int id) async => ContactInfo.fromMap(
-      await DataService.get('${Endpoints.contactinfos}/$id'));
+  // Future<Product> createProduct(Product product) async {
+  //   final l = await DataService.post('products', product.toMap());
+  //   return Product.fromMap(l);
+  // }
+  //
+  // Future<Post> createPost(Post post) async {
+  //   final l = await DataService.post('posts', post.toMap());
+  //   return Post.fromMap(l);
+  // }
+  //
+  // Future<Student> createStudent(Student student) async {
+  //   final l = await DataService.post('students', student.toMap());
+  //   return Student.fromMap(l);
+  // }
+  //
+  // Future<Lecturer> createLecturer(Lecturer lecturer) async {
+  //   final l = await DataService.post('lecturers', lecturer.toMap());
 }
 
 final dataServiceProvider = Provider((ref) => DataService());
