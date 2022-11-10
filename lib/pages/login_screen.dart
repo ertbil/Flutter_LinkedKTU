@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children:  [
+                      children:  const [
                        LogoAndName(textColor: Colors.white),
                       ],
                     ),
@@ -61,12 +61,12 @@ class LoginPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
+                  children:  const [
                     RouterElevatedButton(page: HomePage(), text: Strings.login, pushReplacement: true, ),
-                    const SizedBox(
+                    SizedBox(
                       width: 20,
                     ),
-                    const RouterElevatedButton(
+                    RouterElevatedButton(
                       pushReplacement: true,
                         page: RegisterPage(), text: Strings.signUp),
                   ],

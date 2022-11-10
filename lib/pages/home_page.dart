@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project_ym/constants/colors.dart';
 import '../components/custom_list_view.dart';
 import '../components/drawer.dart';
 import '../repos/product_repo.dart';
 import '../repos/user_repos/lecturer_repo.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -55,8 +56,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: MyColors.themeColor[500],
           onTap: _onItemTapped,
+
         ),
         key: _scaffoldKey,
         drawer: const CustomDrawer(),
