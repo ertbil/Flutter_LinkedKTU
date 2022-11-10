@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project_ym/services/routing_services.dart';
 
 class RouterElevatedButton extends StatelessWidget {
   final String? text;
   final bool pushReplacement;
   final Widget page;
   final IconData? icon;
-
 
   const RouterElevatedButton({
     Key? key,
@@ -15,26 +15,15 @@ class RouterElevatedButton extends StatelessWidget {
     this.icon,
   }) : super(key: key);
 
-  pushReplacementRoute(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-  pushRoute(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        pushReplacement ? pushReplacementRoute(context) : pushRoute(context);
+        pushReplacement
+            ? RouterService.pushReplacementRoute(context, page)
+            : RouterService.pushRoute(context, page);
       },
-      child:  Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (icon != null) Icon(icon),

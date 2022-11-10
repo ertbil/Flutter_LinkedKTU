@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import '../constants/strings.dart';
 
@@ -17,7 +16,8 @@ class CustomTextFormField extends StatefulWidget {
   bool isHidden;
   double? padding;
 
-  CustomTextFormField({
+  CustomTextFormField(
+      {
     Key? key,
     required this.hintText,
     this.labelText,
@@ -31,7 +31,8 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.isHidden = true,
     this.padding = 8.0,
-  }) : super(key: key);
+  }
+  ) : super(key: key);
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -60,6 +61,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           filled: true,
           fillColor: Colors.grey[200],
+
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.isPassword
               ? IconButton(

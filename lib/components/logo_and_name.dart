@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../constants/strings.dart';
 
 class LogoAndName extends StatelessWidget {
-  LogoAndName({Key? key, this.textColor, this.mainAxisAlignment}) : super(key: key);
+  const LogoAndName({Key? key, this.textColor= Colors.black, this.mainAxisAlignment = MainAxisAlignment.start}) : super(key: key);
 
-  Color? textColor;
-  MainAxisAlignment? mainAxisAlignment;
+  final Color? textColor;
+  final MainAxisAlignment? mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
