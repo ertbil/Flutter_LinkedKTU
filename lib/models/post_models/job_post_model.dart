@@ -26,5 +26,18 @@ class JobPost extends Post {
     isRemote = map['isRemote'],
     salary = map['salary'],
     super.fromMap(map);
+
+  toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'company': company,
+      'role': role,
+      'technologies': technologies,
+      'isRemote': isRemote,
+      'salary': salary,
+    };
+  }
   }
 

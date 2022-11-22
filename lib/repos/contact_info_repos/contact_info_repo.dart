@@ -5,6 +5,7 @@ import '../../services/data_transfer_service.dart';
 
 class ContactInfoRepo extends ChangeNotifier {
   List<ContactInfo> contactInfos = [];
+  ContactInfo? contactInfo;
   final DataService converter;
 
   ContactInfoRepo(this.converter);
@@ -13,6 +14,12 @@ class ContactInfoRepo extends ChangeNotifier {
     contactInfos = await converter.getContactInfos();
     notifyListeners();
     return contactInfos;
+  }
+
+  Future<ContactInfo> getContactInfoById(int id) async {
+    contactInfo = await converter.getContactInfo(id);
+    notifyListeners();
+    return contactInfo!;
   }
 }
 
