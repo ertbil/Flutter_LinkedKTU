@@ -1,8 +1,12 @@
 import 'package:project_ym/models/post_models/post_model.dart';
 
+import '../user_models/student_model.dart';
+
 class JobPost extends Post {
   final bool isRemote;
   final String salary;
+  final isAccepted;
+  final List<Student> applicants;
 
   JobPost({
     required int id,
@@ -13,6 +17,9 @@ class JobPost extends Post {
     required List<String> technologies,
     required this.isRemote,
     required this.salary,
+    required this.isAccepted,
+    required this.applicants,
+
   }) : super(
           id: id,
           title: title,
@@ -22,10 +29,12 @@ class JobPost extends Post {
           technologies: technologies,
         );
 
-  JobPost.fromMap(Map<String, dynamic> map) :
-    isRemote = map['isRemote'],
-    salary = map['salary'],
-    super.fromMap(map);
+  JobPost.fromMap(Map<String, dynamic> map)
+      : isRemote = map['isRemote'],
+        salary = map['salary'],
+        isAccepted = map['isAccepted'],
+        applicants = map['applicants'],
+        super.fromMap(map);
 
   toMap() {
     return {

@@ -1,7 +1,6 @@
 import 'package:project_ym/models/contact_models/contact_info_model.dart';
 import 'package:project_ym/models/user_models/user_model.dart';
-import 'package:project_ym/repos/contact_info_repos/contact_info_repo.dart';
-import 'package:project_ym/services/data_transfer_service.dart';
+import '../../constants/enums.dart';
 import '../post_models/job_post_model.dart';
 
 class Employer extends User {
@@ -12,6 +11,7 @@ class Employer extends User {
   final List<String>? languages;
   final List<JobPost>? jobPosts;
 
+
   Employer({
     required int id,
     required String email,
@@ -19,7 +19,7 @@ class Employer extends User {
     required String name,
     required String description,
     required String image,
-    required int contactInfoID,
+    required ContactInfo contactInfo,
     this.city,
     this.isInternshipRemote,
     this.isWorkRemote,
@@ -33,7 +33,7 @@ class Employer extends User {
           name: name,
           description: description,
           image: image,
-          contactInfoID: contactInfoID,
+          contactInfo: contactInfo,
           accountType: AccountType.employer,
         );
 
@@ -60,7 +60,7 @@ class Employer extends User {
       'technologies': technologies,
       'languages': languages,
       'jobPosts': jobPosts,
-      'contactInfoID': contactInfoID,
+      'contactInfo': contactInfo,
     };
   }
 }

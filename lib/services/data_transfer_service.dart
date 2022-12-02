@@ -1,14 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_ym/models/contact_models/contact_info_model.dart';
 import 'package:project_ym/models/post_models/job_post_model.dart';
 import 'package:project_ym/models/user_models/employer_model.dart';
 import 'package:project_ym/models/user_models/lecturer_model.dart';
-import '../models/post_models/post_model.dart';
-import '../models/product_model.dart';
-import '../models/user_models/student_model.dart';
+
 import '../constants/endpoints.dart';
+import '../models/post_models/post_model.dart';
+
+import '../models/user_models/student_model.dart';
 
 class DataService {
   static dynamic get(String path) async {
@@ -17,13 +19,13 @@ class DataService {
       return jsonDecode(response.body);
     } else {
       throw Exception(
-          'Failed to load data from $path error: ${response.statusCode}');
+          'Failed to load data from $path error: ${response.statusCode} } ');
     }
   }
 
   static dynamic post(String path, dynamic data) async {
     final response =
-    await http.post(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+        await http.post(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
     if (response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
@@ -34,7 +36,7 @@ class DataService {
 
   static dynamic put(String path, dynamic data) async {
     final response =
-    await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+        await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -60,10 +62,6 @@ class DataService {
 
   /// This methods are used to get all the entities from the database.
 
-  Future<List<Product>> getProducts() async {
-    final l = await DataService.get(Endpoints.products);
-    return l.map<Product>((e) => Product.fromMap(e)).toList();
-  }
 
 
   Future<List<Post>> getPosts() async {
@@ -73,8 +71,7 @@ class DataService {
 
   Future<List<Student>> getStudents() async {
     final l = await DataService.get(Endpoints.students);
-    return l.map<Student>((e) => Student.fromMap(e))
-        .toList();
+    return l.map<Student>((e) => Student.fromMap(e)).toList();
   }
 
   Future<List<Lecturer>> getLecturers() async {
@@ -86,7 +83,6 @@ class DataService {
     final l = await DataService.get(Endpoints.jobposts);
     return l.map<JobPost>((e) => JobPost.fromMap(e)).toList();
   }
-
 
   Future<List<Employer>> getEmployers() async {
     final l = await DataService.get(Endpoints.employers);
@@ -100,10 +96,7 @@ class DataService {
 
   /// This Methods are used to only one entity from the database.
 
-  Future<Product> getProduct(int id) async {
-    final l = await DataService.get('${Endpoints.products}/$id');
-    return Product.fromMap(l);
-  }
+
 
   Future<Post> getPost(int id) async {
     final l = await DataService.get('${Endpoints.posts}/$id');
@@ -137,10 +130,7 @@ class DataService {
 
   /// This methods are used to add new entities to the database.
 
-  Future<Product> addProduct(Product product) async {
-    final l = await DataService.post(Endpoints.products, product.toMap());
-    return Product.fromMap(l);
-  }
+
 
   Future<Post> addPost(Post post) async {
     final l = await DataService.post(Endpoints.posts, post.toMap());
@@ -168,11 +158,10 @@ class DataService {
   }
 
   Future<ContactInfo> addContactInfo(ContactInfo contactInfo) async {
-    final l = await DataService.post(Endpoints.contactinfos, contactInfo.toMap());
+    final l =
+        await DataService.post(Endpoints.contactinfos, contactInfo.toMap());
     return ContactInfo.fromMap(l);
   }
-
-
 }
 
 final dataServiceProvider = Provider((ref) => DataService());

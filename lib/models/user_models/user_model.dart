@@ -1,9 +1,8 @@
-enum AccountType {
-  lecturer,
-  student,
-  employer,
-  admin,
-}
+
+import '../../constants/enums.dart';
+import '../contact_models/contact_info_model.dart';
+
+
 
 class User {
   final int id;
@@ -12,15 +11,16 @@ class User {
   final String name;
   final String? description;
   final String? image;
-  final int contactInfoID;
-  final AccountType accountType;
+  final ContactInfo? contactInfo;
+  final AccountType? accountType;
 
   User({
     required this.id,
     required this.email,
     required this.password,
     required this.name,
-    required this.contactInfoID,
+    required this.contactInfo,
+
     required this.accountType,
     this.description,
     this.image,
@@ -33,6 +33,6 @@ class User {
         name = map['name'],
         description = map['description'],
         image = map['image'],
-        accountType = map['accountType'],
-        contactInfoID = map['contactInfoID'];
+        accountType = AccountType.student,//map['accountType'] ,
+        contactInfo = ContactInfo.fromMap(map['ContactInfo']);
 }
