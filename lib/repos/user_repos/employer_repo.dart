@@ -5,6 +5,7 @@ import '../../services/data_transfer_service.dart';
 
 class EmployerRepo extends ChangeNotifier {
   List<Employer> employers = [];
+  var employer;
   final DataService converter;
 
   EmployerRepo(this.converter);
@@ -14,9 +15,15 @@ class EmployerRepo extends ChangeNotifier {
     notifyListeners();
     return employers;
   }
+
+  Future<Employer> getEmployer(int userID) {
+    employer = converter.getEmployer(userID);
+    notifyListeners();
+    return employer;
+  }
 }
 
-final productProvider = ChangeNotifierProvider(
+final employerProvider = ChangeNotifierProvider(
   (ref) {
     return EmployerRepo(ref.watch(dataServiceProvider));
   },

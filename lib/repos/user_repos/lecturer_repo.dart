@@ -5,6 +5,7 @@ import '../../services/data_transfer_service.dart';
 
 class LecturerRepo extends ChangeNotifier {
   List<Lecturer> lecturers = [];
+  var lecturer;
   final DataService converter;
 
   LecturerRepo(this.converter);
@@ -13,6 +14,12 @@ class LecturerRepo extends ChangeNotifier {
     lecturers = await converter.getLecturers();
     notifyListeners();
     return lecturers;
+  }
+
+  Future<Lecturer> getLecturer(int userID) {
+    lecturer = converter.getLecturer(userID);
+    notifyListeners();
+    return lecturer;
   }
 }
 
