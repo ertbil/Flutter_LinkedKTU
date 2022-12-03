@@ -1,8 +1,9 @@
 class ContactInfo {
   final int id;
-  final String email;
-  final String phone;
-  final String address;
+  final String? email;
+  final String? phone;
+  final String? address;
+
 
   ContactInfo({
     required this.id,
@@ -16,4 +17,13 @@ class ContactInfo {
         email = map['email'],
         phone = map['phone'],
         address = map['address'];
+
+  toMap() {
+    return {
+      'id': id,
+      'email': email,
+      'phone': phone,
+      'address': address,
+    };
+  }
 }

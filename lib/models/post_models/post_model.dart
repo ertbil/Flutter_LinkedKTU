@@ -22,4 +22,15 @@ class Post {
         company = map['company'],
         role = map['role'],
         technologies = map['technologies'];
+
+  toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'company': company,
+      'role': role,
+      'technologies': technologies,
+    };
+  }
 }

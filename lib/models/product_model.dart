@@ -9,4 +9,12 @@ class Product {
     id = map['id'],
     name = map['name'],
     description = map['description'];
+
+  toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+    };
+  }
 }

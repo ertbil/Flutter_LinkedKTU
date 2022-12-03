@@ -1,9 +1,11 @@
-import 'package:project_ym/models/contact_models/contact_info_model.dart';
+
 import 'package:project_ym/models/user_models/user_model.dart';
 
 
+
 class Lecturer extends User {
-  final ContactInfo contactInfo;
+
+
 
   Lecturer({
     required int id,
@@ -12,8 +14,7 @@ class Lecturer extends User {
     required String name,
     required String description,
     required String image,
-    required String accountType,
-    required this.contactInfo,
+    required int contactInfoID,
   }) : super(
           id: id,
           email: email,
@@ -21,10 +22,24 @@ class Lecturer extends User {
           name: name,
           description: description,
           image: image,
-          accountType: accountType,
+          contactInfoID: contactInfoID,
+          accountType: AccountType.lecturer,
+
         );
 
   Lecturer.fromMap(Map<String, dynamic> map)
-      : contactInfo = ContactInfo.fromMap(map['contactInfo']),
+      :
         super.fromMap(map);
+
+  toMap() {
+    return {
+      'id': id,
+      'email': email,
+      'password': password,
+      'name': name,
+      'description': description,
+      'image': image,
+      'contactInfoID': contactInfoID,
+    };
+  }
 }

@@ -1,20 +1,29 @@
+enum AccountType {
+  lecturer,
+  student,
+  employer,
+  admin,
+}
+
 class User {
   final int id;
   final String email;
   final String password;
   final String name;
-  final String description;
-  final String image;
-  final String accountType;
+  final String? description;
+  final String? image;
+  final int contactInfoID;
+  final AccountType accountType;
 
   User({
     required this.id,
     required this.email,
     required this.password,
     required this.name,
-    required this.description,
-    required this.image,
+    required this.contactInfoID,
     required this.accountType,
+    this.description,
+    this.image,
   });
 
   User.fromMap(Map<String, dynamic> map)
@@ -24,5 +33,6 @@ class User {
         name = map['name'],
         description = map['description'],
         image = map['image'],
-        accountType = map['accountType'];
+        accountType = map['accountType'],
+        contactInfoID = map['contactInfoID'];
 }

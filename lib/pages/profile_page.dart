@@ -8,58 +8,38 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(user.name),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.edit),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+
+            title: Text("Profile"),
+            expandedHeight: 200,
+            flexibleSpace: FlexibleSpaceBar(
+              title: CircleAvatar(
+                radius: 30,
+                child: Icon(Icons.person,
+                size: 30,
+                ),
+              ),
+              titlePadding: EdgeInsets.all(8),
+
+              background: Image.network(
+                "https://picsum.photos/200/300",
+
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+
+
+              ],
+            ),
           ),
         ],
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: [
-                const CircleAvatar(
-                  radius: 50,
-                  child: Icon(Icons.person, size: 50),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(user.name,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-            ListView(
-              shrinkWrap: true,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.person),
-                  title: const Text('Name'),
-                  subtitle: Text(user.name),
-                ),
-                user.description != null
-                    ? ListTile(
-                        leading: const Icon(Icons.description),
-                        title: const Text('Description'),
-                        subtitle: Text(user.description),
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-          ],
-        ),
-      ),
+          )
     );
   }
 }

@@ -23,7 +23,7 @@ class DataService {
 
   static dynamic post(String path, dynamic data) async {
     final response =
-        await http.post(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+    await http.post(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
     if (response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
@@ -34,7 +34,7 @@ class DataService {
 
   static dynamic put(String path, dynamic data) async {
     final response =
-        await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+    await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -58,11 +58,12 @@ class DataService {
 
   //https://stackoverflow.com/a/55237197/17817088  burada cevap olabilir
 
+  /// This methods are used to get all the entities from the database.
+
   Future<List<Product>> getProducts() async {
     final l = await DataService.get(Endpoints.products);
     return l.map<Product>((e) => Product.fromMap(e)).toList();
   }
-
 
 
   Future<List<Post>> getPosts() async {
@@ -73,7 +74,7 @@ class DataService {
   Future<List<Student>> getStudents() async {
     final l = await DataService.get(Endpoints.students);
     return l.map<Student>((e) => Student.fromMap(e))
-          .toList();
+        .toList();
   }
 
   Future<List<Lecturer>> getLecturers() async {
@@ -97,44 +98,81 @@ class DataService {
     return l.map<ContactInfo>((e) => ContactInfo.fromMap(e)).toList();
   }
 
+  /// This Methods are used to only one entity from the database.
 
-
- Future<List<Product>> getProduct (int id) async {
+  Future<Product> getProduct(int id) async {
     final l = await DataService.get('${Endpoints.products}/$id');
-    return l.map<Product>((e) => Product.fromMap(e)).toList();
+    return Product.fromMap(l);
   }
 
-  Future<List<Post>> getPost (int id) async {
+  Future<Post> getPost(int id) async {
     final l = await DataService.get('${Endpoints.posts}/$id');
-    return l.map<Post>((e) => Post.fromMap(e)).toList();
+    return Post.fromMap(l);
   }
 
-  Future<List<Student>> getStudent (int id) async {
+  Future<Student> getStudent(int id) async {
     final l = await DataService.get('${Endpoints.students}/$id');
-    return l
-          .map<Student>((e) => Student.fromMap(e))
-          .toList();
+    return Student.fromMap(l);
+  }
+
+  Future<Lecturer> getLecturer(int id) async {
+    final l = await DataService.get('${Endpoints.lecturer}/$id');
+    return Lecturer.fromMap(l);
+  }
+
+  Future<JobPost> getJobPost(int id) async {
+    final l = await DataService.get('${Endpoints.jobposts}/$id');
+    return JobPost.fromMap(l);
+  }
+
+  Future<Employer> getEmployer(int id) async {
+    final l = await DataService.get('${Endpoints.employers}/$id');
+    return Employer.fromMap(l);
+  }
+
+  Future<ContactInfo> getContactInfo(int id) async {
+    final l = await DataService.get('${Endpoints.contactinfos}/$id');
+    return ContactInfo.fromMap(l);
+  }
+
+  /// This methods are used to add new entities to the database.
+
+  Future<Product> addProduct(Product product) async {
+    final l = await DataService.post(Endpoints.products, product.toMap());
+    return Product.fromMap(l);
+  }
+
+  Future<Post> addPost(Post post) async {
+    final l = await DataService.post(Endpoints.posts, post.toMap());
+    return Post.fromMap(l);
+  }
+
+  Future<Student> addStudent(Student student) async {
+    final l = await DataService.post(Endpoints.students, student.toMap());
+    return Student.fromMap(l);
+  }
+
+  Future<Lecturer> addLecturer(Lecturer lecturer) async {
+    final l = await DataService.post(Endpoints.lecturer, lecturer.toMap());
+    return Lecturer.fromMap(l);
+  }
+
+  Future<JobPost> addJobPost(JobPost jobPost) async {
+    final l = await DataService.post(Endpoints.jobposts, jobPost.toMap());
+    return JobPost.fromMap(l);
+  }
+
+  Future<Employer> addEmployer(Employer employer) async {
+    final l = await DataService.post(Endpoints.employers, employer.toMap());
+    return Employer.fromMap(l);
+  }
+
+  Future<ContactInfo> addContactInfo(ContactInfo contactInfo) async {
+    final l = await DataService.post(Endpoints.contactinfos, contactInfo.toMap());
+    return ContactInfo.fromMap(l);
   }
 
 
-
-  // Future<Product> createProduct(Product product) async {
-  //   final l = await DataService.post('products', product.toMap());
-  //   return Product.fromMap(l);
-  // }
-  //
-  // Future<Post> createPost(Post post) async {
-  //   final l = await DataService.post('posts', post.toMap());
-  //   return Post.fromMap(l);
-  // }
-  //
-  // Future<Student> createStudent(Student student) async {
-  //   final l = await DataService.post('students', student.toMap());
-  //   return Student.fromMap(l);
-  // }
-  //
-  // Future<Lecturer> createLecturer(Lecturer lecturer) async {
-  //   final l = await DataService.post('lecturers', lecturer.toMap());
 }
 
 final dataServiceProvider = Provider((ref) => DataService());

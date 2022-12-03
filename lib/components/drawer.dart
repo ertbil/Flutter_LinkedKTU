@@ -4,29 +4,13 @@ import 'package:project_ym/models/user_models/lecturer_model.dart';
 import 'package:project_ym/pages/profile_page.dart';
 import 'package:project_ym/services/routing_services.dart';
 import '../constants/strings.dart';
-import '../models/contact_models/contact_info_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Lecturer user = Lecturer(
-      id: 1,
-      email: "lorem@gmial.com",
-      password: "1233456",
-      name: "Lorem Ipsum",
-      description:
-          "Lorem Ipsum dolor sit amet Lorem Ipsum dolor sit amet dolor sit amet",
-      image: "",
-      accountType: "",
-      contactInfo: ContactInfo(
-        id: 1,
-        phone: "123456789",
-        address: "Lorem Ipsum dolor sit amet",
-        email: "lorem@gmail.com",
-      ),
-    );
+
     return Drawer(
       child: ListView(
         children: [
