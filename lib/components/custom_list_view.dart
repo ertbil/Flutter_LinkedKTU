@@ -27,7 +27,14 @@ class CustomListView extends ConsumerWidget {
                 (account) => Column(
                   children: [
                     ListTile(
-                      leading:  CircleAvatar(child: account.image != null ? Image.network(account.image): const Icon(Icons.person)),
+                      leading:  account.image != null ? CircleAvatar(
+                        backgroundImage: NetworkImage(account.image!),
+                      ) : const CircleAvatar(
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                        ),
+                      ),
                       title: Text(account.name),
                       subtitle: Text(
                         account.description,
