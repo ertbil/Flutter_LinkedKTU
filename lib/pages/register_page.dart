@@ -53,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(
                       width: 20,
                     ),
-                    const RouterElevatedButton(
+                     RouterElevatedButton(
                         pushReplacement: true,
                         page: LoginPage(),
                         text: Strings.signUpScreenDescription2),

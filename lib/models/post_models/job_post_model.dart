@@ -5,7 +5,7 @@ import '../user_models/student_model.dart';
 class JobPost extends Post {
   final bool isRemote;
   final String salary;
-  final isAccepted;
+  final bool isAccepted;
   final List<Student> applicants;
 
   JobPost({
