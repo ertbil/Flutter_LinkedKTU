@@ -9,5 +9,6 @@ class Endpoints {
   static const String contacts = 'contacts';
   static const String employers = 'employers';
   static const String contactinfos = 'contactinfos';
+  static const String skills = 'skills';
 
 }
