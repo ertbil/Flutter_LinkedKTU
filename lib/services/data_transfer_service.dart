@@ -9,14 +9,13 @@ import 'package:project_ym/models/user_models/lecturer_model.dart';
 
 import '../constants/endpoints.dart';
 import '../models/post_models/post_model.dart';
-
 import '../models/user_models/student_model.dart';
 
 class DataService {
   static dynamic get(String path) async {
     final response = await http.get(Uri.parse('${Endpoints.baseUrl}/$path'));
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body );
     } else {
       throw Exception(
           'Failed to load data from $path error: ${response.statusCode} } ');
@@ -62,16 +61,20 @@ class DataService {
 
   /// This methods are used to get all the entities from the database.
 
-
-
   Future<List<Post>> getPosts() async {
     final l = await DataService.get(Endpoints.posts);
     return l.map<Post>((e) => Post.fromMap(e)).toList();
   }
 
   Future<List<Student>> getStudents() async {
-    final l = await DataService.get(Endpoints.students);
-    return l.map<Student>((e) => Student.fromMap(e)).toList();
+    var l = await DataService.get(Endpoints.students);
+
+    l = l['data'];
+    return l.map<Student>((e) {
+
+
+      return Student.fromMap(e);
+    }).toList();
   }
 
   Future<List<Lecturer>> getLecturers() async {
@@ -96,8 +99,6 @@ class DataService {
 
   /// This Methods are used to only one entity from the database.
 
-
-
   Future<Post> getPost(int id) async {
     final l = await DataService.get('${Endpoints.posts}/$id');
     return Post.fromMap(l);
@@ -105,7 +106,7 @@ class DataService {
 
   Future<Student> getStudent(int id) async {
     final l = await DataService.get('${Endpoints.students}/$id');
-    return Student.fromMap(l);
+    return Student.fromMap(l['data']);
   }
 
   Future<Lecturer> getLecturer(int id) async {
@@ -129,8 +130,6 @@ class DataService {
   }
 
   /// This methods are used to add new entities to the database.
-
-
 
   Future<Post> addPost(Post post) async {
     final l = await DataService.post(Endpoints.posts, post.toMap());
@@ -161,6 +160,19 @@ class DataService {
     final l =
         await DataService.post(Endpoints.contactinfos, contactInfo.toMap());
     return ContactInfo.fromMap(l);
+  }
+
+
+
+
+
+  Future<List<Student>> getTechs(String tech) async {
+    var l = await DataService.get('${Endpoints.students}/${Endpoints.skills}/$tech');
+    l = l['data'];
+    return l.map<Student>((e) {
+
+      return Student.fromMap(e);
+    }).toList();
   }
 }
 

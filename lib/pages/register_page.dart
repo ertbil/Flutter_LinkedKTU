@@ -11,55 +11,57 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register Page'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const LogoAndName(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                CustomTextFormField(
-                    hintText: Strings.userName,
-                    prefixIcon: const Icon(Icons.person)),
-                CustomTextFormField(
-                    hintText: Strings.email,
-                    prefixIcon: const Icon(Icons.email)),
-                CustomTextFormField(
-                  hintText: Strings.password,
-                  prefixIcon: const Icon(Icons.lock),
-                  isPassword: true,
-                ),
-                CustomTextFormField(
-                  hintText: Strings.confirmPassword,
-                  prefixIcon: const Icon(Icons.lock),
-                  isPassword: true,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Register'),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                     RouterElevatedButton(
-                        pushReplacement: true,
-                        page: LoginPage(),
-                        text: Strings.signUpScreenDescription2),
-                  ],
-                ),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Register Page'),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const LogoAndName(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  CustomTextFormField(
+                      hintText: Strings.userName,
+                      prefixIcon: const Icon(Icons.person)),
+                  CustomTextFormField(
+                      hintText: Strings.email,
+                      prefixIcon: const Icon(Icons.email)),
+                  CustomTextFormField(
+                    hintText: Strings.password,
+                    prefixIcon: const Icon(Icons.lock),
+                    isPassword: true,
+                  ),
+                  CustomTextFormField(
+                    hintText: Strings.confirmPassword,
+                    prefixIcon: const Icon(Icons.lock),
+                    isPassword: true,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Register'),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                       RouterElevatedButton(
+                          pushReplacement: true,
+                          page: LoginPage(),
+                          text: Strings.signUpScreenDescription2),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

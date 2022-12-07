@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
-import 'package:email_validator/email_validator.dart';
+
 import 'package:flutter/material.dart';
+import 'package:project_ym/services/string_extention.dart';
 import '../constants/strings.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -42,14 +43,20 @@ class CustomTextFormField extends StatefulWidget {
   ) : super(key: key);
 
   String? mailValidator(TextEditingController? controller) {
-    print(controller!.text);
+
     if (controller!.text.isEmpty) {
       return 'Please enter your email';
-    } else if (EmailValidator.validate(controller.text)) {
+    } else if (!controller.text.trim().isValidEmail()) {
       return 'Please enter a valid email address';
     }
+    // else if () {
+    //   return ;
+    // }
     return null;
-  }
+
+    }
+
+
 
 
   @override
@@ -63,11 +70,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       padding:  EdgeInsets.all(widget.padding??8.0),
       child: TextFormField(
         obscureText: widget.isHidden && widget.isPassword,
-        validator: widget.isEmail ?
-            (value) => widget.mailValidator(widget.controller ): null,
+        validator: widget.isEmail  && widget.controller != null ?
+            (value) =>widget.mailValidator(widget.controller): null,
         controller: widget.controller,
         decoration: InputDecoration(
+
           border: OutlineInputBorder(
+
             borderRadius: BorderRadius.circular(15.0),
             borderSide: BorderSide.none,
           ),

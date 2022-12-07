@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_ym/constants/colors.dart';
-
 import '../pages/profile_page.dart';
 import '../services/routing_services.dart';
 
@@ -13,7 +12,6 @@ class CustomListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     AsyncValue<List<dynamic>> accounts = ref.watch(listProvider);
 
     return RefreshIndicator(
@@ -27,14 +25,16 @@ class CustomListView extends ConsumerWidget {
                 (account) => Column(
                   children: [
                     ListTile(
-                      leading:  account.image != null ? CircleAvatar(
-                        backgroundImage: NetworkImage(account.image!),
-                      ) : const CircleAvatar(
-                        child: Icon(
-                          Icons.person,
-                          size: 50,
-                        ),
-                      ),
+                      leading: account.image != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(account.image!),
+                            )
+                          : const CircleAvatar(
+                              child: Icon(
+                                Icons.person,
+                                size: 50,
+                              ),
+                            ),
                       title: Text(account.name),
                       subtitle: Text(
                         account.description,
@@ -43,7 +43,11 @@ class CustomListView extends ConsumerWidget {
                       ),
                       trailing: IconButton(
                         onPressed: () {
-                          RouterService.pushRoute(context, ProfilePage(userID: account.id, accountType: account.accountType));
+                          RouterService.pushRoute(
+                              context,
+                              ProfilePage(
+                                  userID: account.id,
+                                  accountType: account.accountType));
                         },
                         icon: const Icon(Icons.arrow_forward_outlined),
                         splashColor: MyColors.themeColor[500],
@@ -56,12 +60,55 @@ class CustomListView extends ConsumerWidget {
                 ),
               )
               .toList(),
-          loading: () => const [
-            Center(
-                child: SizedBox(
-                    height: 50, width: 50, child: CircularProgressIndicator()))
+          loading: () => [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:  [
+                     SizedBox(
+                       height: MediaQuery.of(context).size.height * 0.4,
+                     ),
+
+                       const SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator()),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                      ),
+
+                    ],
+                  )),
+            ),
           ],
-          error: (error, stack) => [Text(error.toString())],
+          error: (error, stack) => [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error, color: Colors.red, size: 60),
+                    const Text('Error'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        error.toString(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                    ),
+
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
