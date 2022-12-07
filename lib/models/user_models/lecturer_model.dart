@@ -1,11 +1,11 @@
-
+import 'package:project_ym/models/contact_models/contact_info_model.dart';
+import 'package:project_ym/models/user_models/student_model.dart';
 import 'package:project_ym/models/user_models/user_model.dart';
 
-
+import '../../constants/enums.dart';
 
 class Lecturer extends User {
-
-
+  final List<Student> approvedStudents;
 
   Lecturer({
     required int id,
@@ -14,7 +14,8 @@ class Lecturer extends User {
     required String name,
     required String description,
     required String image,
-    required int contactInfoID,
+    required ContactInfo contactInfo,
+    required this.approvedStudents,
   }) : super(
           id: id,
           email: email,
@@ -22,13 +23,12 @@ class Lecturer extends User {
           name: name,
           description: description,
           image: image,
-          contactInfoID: contactInfoID,
+          contactInfo: contactInfo,
           accountType: AccountType.lecturer,
-
         );
 
   Lecturer.fromMap(Map<String, dynamic> map)
-      :
+      : approvedStudents = map['approvedStudents'],
         super.fromMap(map);
 
   toMap() {
@@ -39,7 +39,7 @@ class Lecturer extends User {
       'name': name,
       'description': description,
       'image': image,
-      'contactInfoID': contactInfoID,
+      'contactInfoID': contactInfo,
     };
   }
 }

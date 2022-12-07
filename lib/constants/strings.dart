@@ -31,6 +31,15 @@ class Strings {
   static const  profile = "Profile";
   static const  settings = "Settings";
   static const logout = "Logout";
+  static const phone = "Phone";
+  static const address = "Address";
+  static const error = "Error";
+
+  static const loading = "Loading";
+
+  static const about = "About";
+
+
 
 
 

@@ -1,20 +1,29 @@
 import 'dart:ui';
+
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_ym/components/custom_text_form_field.dart';
 import 'package:project_ym/components/logo_and_name.dart';
 import 'package:project_ym/components/router_elevated_button.dart';
 import 'package:project_ym/constants/strings.dart';
 import 'package:project_ym/pages/register_page.dart';
+
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Form(
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -34,8 +43,8 @@ class LoginPage extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children:  const [
-                       LogoAndName(textColor: Colors.white),
+                      children: const [
+                        LogoAndName(textColor: Colors.white),
                       ],
                     ),
                   ]),
@@ -44,8 +53,13 @@ class LoginPage extends StatelessWidget {
                   height: 20,
                 ),
                 CustomTextFormField(
-                    hintText: Strings.userName,
-                    prefixIcon: const Icon(Icons.person)),
+                  hintText: Strings.userName,
+                  prefixIcon: const Icon(Icons.person),
+                  isEmail: true,
+                  controller: emailController,
+
+
+                ),
                 CustomTextFormField(
                     hintText: Strings.password,
                     prefixIcon: const Icon(Icons.lock),
@@ -61,14 +75,20 @@ class LoginPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  const [
-                    RouterElevatedButton(page: HomePage(), text: Strings.login, pushReplacement: true, ),
-                    SizedBox(
+                  children: [
+                    RouterElevatedButton(
+                      page: const HomePage(),
+                      text: Strings.login,
+                      pushReplacement: true,
+                      formKey: formKey,
+                    ),
+                    const SizedBox(
                       width: 20,
                     ),
-                    RouterElevatedButton(
-                      pushReplacement: true,
-                        page: RegisterPage(), text: Strings.signUp),
+                    const RouterElevatedButton(
+                        pushReplacement: true,
+                        page: RegisterPage(),
+                        text: Strings.signUp),
                   ],
                 ),
               ],

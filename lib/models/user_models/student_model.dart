@@ -1,12 +1,20 @@
 import 'package:project_ym/models/post_models/post_model.dart';
 import 'package:project_ym/models/user_models/user_model.dart';
 
+import '../../constants/enums.dart';
+import '../contact_models/contact_info_model.dart';
+import '../post_models/job_post_model.dart';
+import 'lecturer_model.dart';
+
 class Student extends User {
   final String? school;
   final String? city;
   final List<String>? technologies;
   final List<String>? languages;
-  final Post? experience;
+  final List<Post>? experience;
+  final List<JobPost>? appliedJobs; // başvurdugu işler
+  final List<Lecturer>? lecturersThatApproved; // onaylandıgı hocalar
+
 
   Student({
     required int id,
@@ -15,12 +23,14 @@ class Student extends User {
     required String name,
     required String description,
     required String image,
-    required int contactInfoID,
+    required ContactInfo contactInfo,
     this.school,
     this.city,
     this.technologies,
     this.languages,
     this.experience,
+    this.appliedJobs = const [],
+    this.lecturersThatApproved = const [],
   }) : super(
           id: id,
           email: email,
@@ -28,17 +38,20 @@ class Student extends User {
           name: name,
           description: description,
           image: image,
-          contactInfoID: contactInfoID,
+          contactInfo: contactInfo,
           accountType: AccountType.student,
         );
 
   Student.fromMap(Map<String, dynamic> map)
       : school = map['school'],
         city = map['city'],
-        technologies = map['technologies'],
-        languages = map['languages'],
-        experience = Post.fromMap(map['experience']),
+        languages = map['languages']  ,
+        technologies = List<String>.from(map['technologies'])  ,
+        experience = null,//map['experience'] ,
+        appliedJobs = null, //map['appliedJobs'] ,
+        lecturersThatApproved =null, // map['lecturersThatApproved'] ,
         super.fromMap(map);
+
 
   toMap() {
     return {
@@ -53,7 +66,7 @@ class Student extends User {
       'technologies': technologies,
       'languages': languages,
       'experience': experience,
-      'contactInfoID': contactInfoID,
+      'contactInfo': contactInfo,
     };
   }
 }
