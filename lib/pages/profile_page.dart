@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_ym/components/error.dart';
 
-import 'package:project_ym/constants/strings.dart';
-
+import '../components/load_indicator.dart';
+import '../components/profile_list_comps/general_profile_list.dart';
+import '../components/profile_list_comps/student_profile_list.dart';
 import '../constants/enums.dart';
 import '../services/data_transfer_service.dart';
 
@@ -19,29 +21,8 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
-  late final  userProvider;
+  late final userProvider;
   bool isChecked = false;
-
-
-  Widget _buildChip(String label, Color color) {
-    return Chip(
-      labelPadding: const EdgeInsets.all(2.0),
-      avatar: CircleAvatar(
-        backgroundColor: Colors.white70,
-        child: Text(label[0].toUpperCase()),
-      ),
-      label: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: color,
-      elevation: 6.0,
-      shadowColor: Colors.grey[60],
-      padding: const EdgeInsets.all(8.0),
-    );
-  }
 
   @override
   void initState() {
@@ -78,7 +59,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             SliverAppBar(
               automaticallyImplyLeading: false,
               actions: [
-
                 IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
               ],
               expandedHeight: 200,
@@ -135,120 +115,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  user.when(
-                    data: (data) => Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        ListTile(
-                          title: const Text(Strings.about),
-                          subtitle: Text(data.description),
-                        ),
-                        const SizedBox(height: 10),
-                        ListTile(
-                          title: const Text('Contact'),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                title: Row(
-                                  children: const [
-                                    Icon(Icons.email),
-                                    SizedBox(width: 10),
-                                    Text('Email'),
-                                  ],
-                                ),
-                                subtitle: Text(data.contactInfo.email),
-                              ),
-                              ListTile(
-                                title: Row(
-                                  children: const [
-                                    Icon(Icons.phone),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Phone'),
-                                  ],
-                                ),
-                                subtitle: Text(data.contactInfo.phone),
-                              ),
-                              ListTile(
-                                title: Row(
-                                  children: const [
-                                    Icon(Icons.location_on),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Address'),
-                                  ],
-                                ),
-                                subtitle: Text(data.contactInfo.address),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        if (data.accountType == AccountType.student)
-                          Column(
-                            children: [
-                              ListTile(
-                                title: Row(
-                                  children: const [
-                                    Icon(Icons.location_city),
-                                    SizedBox(width: 10),
-                                    Text('Live in'),
-                                  ],
-                                ),
-                                subtitle: Text(data.city),
-                              ),
-                              ListTile(
-                                title: Row(
-                                  children: const [
-                                    Icon(Icons.school),
-                                    SizedBox(width: 10),
-                                    Text('Studied at'),
-                                  ],
-                                ),
-                                subtitle: Text(data.school),
-                              ),
-                              ListTile(
-                                title: const Text('Skills'),
-                                subtitle: data.technologies != null
-                                    ? Wrap(
-                                        spacing: 6.0,
-                                        children: [
-                                          for (var skill in data.technologies)
-                                            _buildChip(skill, Colors.blue),
-                                        ],
-                                      )
-                                    : const Text('No skills'),
-                              ),
-                            ],
-                          ),
-                      ],
-                    ),
-                    loading: () => SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            user.when(
+                data: (data) => SliverList(
+                        delegate: SliverChildListDelegate([
+                      Column(
                         children: [
-                          const SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: CircularProgressIndicator()),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.5),
+                          GeneralProfileList(data: data),
+                          if (data.accountType == AccountType.student)
+                            StudentProfileList(
+                              data: data,
+                            ),
                         ],
-                      )),
+                      ),
+                    ])),
+                loading: () => SliverList(
+                      delegate: SliverChildListDelegate([
+                        const LoadIndicator(),
+                      ]),
                     ),
-                    error: (error, stack) =>  Center(child: Text(error.toString())),
-                  ),
-                ],
-              ),
-            )
+                error: (error, stack) => SliverList(
+                    delegate:
+                        SliverChildListDelegate([ErrorView(error: error)]))),
           ]),
         ),
       ),

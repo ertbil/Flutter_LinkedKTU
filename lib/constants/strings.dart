@@ -36,6 +36,5 @@ class Strings {
   static const error = "Error";
   static const loading = "Loading";
   static const about = "About";
-
   static const search= "Search";
 }

@@ -8,6 +8,7 @@ import 'package:project_ym/services/data_transfer_service.dart';
 
 import '../components/custom_list_view.dart';
 import '../components/drawer.dart';
+import '../components/search_box.dart';
 import '../repos/user_repos/lecturer_repo.dart';
 
 // ignore: must_be_immutable
@@ -30,22 +31,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    widget.widgetOptions = <Widget>[
-      Column(
-        children: [
-          Expanded(
-            child: CustomListView(studentListProvider),
-          ),
-        ],
-      ),
-      Column(
-        children: [
-          Expanded(
-            child: CustomListView(lecturerListProvider),
-          ),
-        ],
-      ),
-    ];
+    newStudentListProvider = studentListProvider;
+    newLecturerListProvider = lecturerListProvider;
+
     super.initState();
   }
 
@@ -57,6 +45,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    widget.widgetOptions = <Widget>[
+      Column(
+        children: [
+          Expanded(
+            child: CustomListView(newStudentListProvider),
+          ),
+        ],
+      ),
+      Column(
+        children: [
+          Expanded(
+            child: CustomListView(newLecturerListProvider),
+          ),
+        ],
+      ),
+    ];
+
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: BottomNavigationBar(
@@ -77,73 +82,9 @@ class _HomePageState extends State<HomePage> {
           key: _scaffoldKey,
           drawer: const CustomDrawer(),
           appBar: AppBar(
-            actions: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TextField(
 
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: 'Search',
+             title: SearchBox(searchController: _searchController, search: search),
 
-                    prefixIconColor: Colors.white,
-                    hintStyle: const TextStyle(color: Colors.white),
-                  ),
-                  style: const TextStyle(color: Colors.white),
-                  onChanged: (value) {
-                    const Duration(microseconds: 1500);
-                    if (value.isNotEmpty) {
-                      setState(() {
-                        newStudentListProvider = FutureProvider((ref) async =>
-                            ref.read(dataServiceProvider).getTechs(value.trim()));
-                        // newLecturerListProvider = FutureProvider((ref) async =>
-                        //     ref.read(dataServiceProvider).getTechs(value));
-
-                        widget.widgetOptions = <Widget>[
-                          Column(
-                            children: [
-                              Expanded(
-                                child: CustomListView(newStudentListProvider),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Expanded(
-                                child: CustomListView(lecturerListProvider),
-                              ),
-                            ],
-                          ),
-                        ];
-                      });
-                    } else {
-                      setState(() {
-                        widget.widgetOptions = <Widget>[
-                          Column(
-                            children: [
-                              Expanded(
-                                child: CustomListView(studentListProvider),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Expanded(
-                                child: CustomListView(lecturerListProvider),
-                              ),
-                            ],
-                          ),
-                        ];
-                      });
-                    }
-                  },
-                ),
-              )
-            ],
             leading: IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
@@ -153,5 +94,20 @@ class _HomePageState extends State<HomePage> {
           ),
           body: Center(child: widget.widgetOptions.elementAt(_selectedIndex))),
     );
+  }
+
+  void search(String value) {
+    const Duration(microseconds: 1500);
+    if (value.isNotEmpty) {
+      setState(() {
+        newStudentListProvider = FutureProvider((ref) async =>
+            ref.read(dataServiceProvider).getStudentByTechs(value.trim()));
+      });
+    } else {
+      setState(() {
+        newStudentListProvider = studentListProvider;
+        newLecturerListProvider = lecturerListProvider;
+      });
+    }
   }
 }
