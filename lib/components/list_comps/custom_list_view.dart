@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_ym/constants/colors.dart';
 
-import '../pages/profile_page.dart';
-import '../services/routing_services.dart';
+import '../error_and_load/error.dart';
+import '../error_and_load/load_indicator.dart';
 import 'custom_list_tile.dart';
-import 'error.dart';
-import 'load_indicator.dart';
+
+
 
 // ignore: must_be_immutable
 class CustomListView extends ConsumerWidget {

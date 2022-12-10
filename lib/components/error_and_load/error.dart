@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_ym/constants/strings.dart';
 
 class ErrorView extends StatelessWidget {
-  final error;
+  final Object error;
 
   const ErrorView({Key? key,  required this.error}) : super(key: key);
 
@@ -17,7 +17,7 @@ class ErrorView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.error, color: Colors.red, size: 60),
-            const Text('Error'),
+            const Text(Strings.error),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

@@ -6,9 +6,11 @@ import 'package:project_ym/models/user_models/student_model.dart';
 import 'package:project_ym/repos/user_repos/student_repo.dart';
 import 'package:project_ym/services/data_transfer_service.dart';
 
-import '../components/custom_list_view.dart';
+
 import '../components/drawer.dart';
-import '../components/search_box.dart';
+import '../components/list_comps/custom_list_view.dart';
+import '../components/text_field_comps/search_box.dart';
+import '../constants/strings.dart';
 import '../repos/user_repos/lecturer_repo.dart';
 
 // ignore: must_be_immutable
@@ -68,11 +70,11 @@ class _HomePageState extends State<HomePage> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: Strings.home,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.business),
-                label: 'Business',
+                label: Strings.business,
               ),
             ],
             currentIndex: _selectedIndex,

@@ -37,4 +37,10 @@ class Strings {
   static const loading = "Loading";
   static const about = "About";
   static const search= "Search";
+
+  static const register = "Register";
+
+  static const home= 'Home';
+
+  static const business = 'Business';
 }

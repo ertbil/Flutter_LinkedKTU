@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../constants/colors.dart';
-import '../pages/profile_page.dart';
-import '../services/routing_services.dart';
+import '../../constants/colors.dart';
+import '../../pages/profile_page.dart';
+import '../../services/routing_services.dart';
 
 class CustomListTile extends StatelessWidget {
   const CustomListTile({
@@ -10,7 +10,7 @@ class CustomListTile extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final account;
+  final dynamic account;
   @override
   Widget build(BuildContext context) {
     return ListTile(

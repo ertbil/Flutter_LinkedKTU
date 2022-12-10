@@ -2,12 +2,14 @@ import 'dart:ui';
 
 
 import 'package:flutter/material.dart';
-import 'package:project_ym/components/custom_text_form_field.dart';
+
 import 'package:project_ym/components/logo_and_name.dart';
-import 'package:project_ym/components/router_elevated_button.dart';
+
 import 'package:project_ym/constants/strings.dart';
 import 'package:project_ym/pages/register_page.dart';
 
+import '../components/button_type_comps/router_elevated_button.dart';
+import '../components/text_field_comps/custom_text_form_field.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {

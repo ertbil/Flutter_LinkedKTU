@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../chip.dart';
+import '../button_type_comps/chip.dart';
 
 class StudentProfileList extends StatelessWidget {
   const StudentProfileList({

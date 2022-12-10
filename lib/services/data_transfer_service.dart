@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_ym/models/post_models/job_post_model.dart';
@@ -125,7 +126,8 @@ class DataService {
   }
 
   Future<List<Student>> getStudentByTechs(String tech) async {
-    var decodedData = await DataService.get('${Endpoints.students}/${Endpoints.skills}/$tech');
+    var decodedData = await DataService.get(
+        '${Endpoints.students}/${Endpoints.skills}/$tech');
     decodedData = decodedData['data'];
     return decodedData.map<Student>((element) {
       return Student.fromMap(element);
