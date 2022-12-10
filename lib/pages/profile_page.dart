@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_ym/components/error.dart';
+import 'package:project_ym/components/error_and_load/error.dart';
 
-import '../components/load_indicator.dart';
+
+import '../components/error_and_load/load_indicator.dart';
 import '../components/profile_list_comps/general_profile_list.dart';
 import '../components/profile_list_comps/student_profile_list.dart';
 import '../constants/enums.dart';
+import '../constants/strings.dart';
 import '../services/data_transfer_service.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -21,7 +23,8 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
-  late final userProvider;
+  // ignore: prefer_typing_uninitialized_variables
+  late final userProvider; // at the initState type can be change that's why we ignore: prefer_typing_uninitialized_variables
   bool isChecked = false;
 
   @override
@@ -59,7 +62,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             SliverAppBar(
               automaticallyImplyLeading: false,
               actions: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
+                IconButton(onPressed: () {
+                  //TODO edit will be add
+                }, icon: const Icon(Icons.edit))
               ],
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
@@ -93,10 +98,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                         ),
                         loading: () => const CircularProgressIndicator(),
-                        error: (error, stack) => const Text('Error'),
+                        error: (error, stack) => const Text(Strings.error),
                       ),
                     ),
                     IconButton(
+                      //TODO this Icon should be view by auth
                         onPressed: () {
                           setState(() {
                             isChecked = !isChecked;

@@ -34,7 +34,3 @@ final FutureProvider<List<Student>> studentListProvider =
     FutureProvider((ref) async {
   return ref.read(dataServiceProvider).getStudents();
 });
-
-
-
-

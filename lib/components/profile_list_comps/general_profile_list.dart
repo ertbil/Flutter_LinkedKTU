@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/strings.dart';
 
@@ -7,6 +8,12 @@ class GeneralProfileList extends StatelessWidget {
     Key? key, this.data,
   }) : super(key: key);
   final dynamic data;
+
+  Future<void> _launchUrl(url) async {
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +26,35 @@ class GeneralProfileList extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ListTile(
-          title: const Text('Contact'),
+          title: const Text(Strings.contactInfo),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
                 title: Row(
-                  children: const [
-                    Icon(Icons.email),
-                    SizedBox(width: 10),
-                    Text('Email'),
+                  children:  [
+                    IconButton(icon: const Icon(Icons.email),onPressed: () {
+                      Uri url = Uri.parse('mailto:${data.contactInfo.email}');
+                      _launchUrl(url);
+                    },),
+                    const SizedBox(width: 10),
+                    const Text(Strings.email),
                   ],
                 ),
                 subtitle: Text(data.contactInfo.email),
               ),
               ListTile(
                 title: Row(
-                  children: const [
-                    Icon(Icons.phone),
-                    SizedBox(
+                  children:  [
+                    IconButton(icon:  const Icon(Icons.phone),
+                    onPressed: () {
+                       Uri url = Uri.parse('tel:${data.contactInfo.phone}');
+                       _launchUrl(url);
+                    },),
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text('Phone'),
+                    const Text(Strings.phone),
                   ],
                 ),
                 subtitle: Text(data.contactInfo.phone),
