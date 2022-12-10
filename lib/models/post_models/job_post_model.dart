@@ -36,6 +36,7 @@ class JobPost extends Post {
         applicants = map['applicants'],
         super.fromMap(map);
 
+  @override
   toMap() {
     return {
       'id': id,

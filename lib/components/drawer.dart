@@ -1,30 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_ym/constants/colors.dart';
-import 'package:project_ym/models/user_models/user_model.dart';
-import '../constants/enums.dart';
 import '../constants/strings.dart';
-import '../models/contact_models/contact_info_model.dart';
 
 class CustomDrawer extends ConsumerWidget {
-   CustomDrawer({Key? key}) : super(key: key);
+   const CustomDrawer({Key? key}) : super(key: key);
 
-  User user = User(
-    id: 1,
-    email: '',
-    accountType: AccountType.student,
-    name: 'Yusuf',
-    description: 'Flutter Developer',
-    image: 'lorempixel.com/200/200',
-    contactInfo: ContactInfo(
-      id: 1,
-     address: 'İstanbul',
-      phone: '123456789',
-      email:'',
 
-    ), password: '',
-
-  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

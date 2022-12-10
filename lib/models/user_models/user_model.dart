@@ -29,7 +29,7 @@ class User {
   User.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         email = map['email'],
-        password = map['password'],
+        password = "123", //map['password'],
         name = map['name'],
         description = map['description'],
         image = map['image'],

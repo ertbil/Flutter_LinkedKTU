@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../models/user_models/lecturer_model.dart';
 import '../../services/data_transfer_service.dart';
 
@@ -23,7 +24,8 @@ class LecturerRepo extends ChangeNotifier {
   }
 }
 
-final lecturerProvider = ChangeNotifierProvider((ref) {
+final lecturerProvider = ChangeNotifierProvider(
+  (ref) {
     return LecturerRepo(ref.watch(dataServiceProvider));
   },
 );

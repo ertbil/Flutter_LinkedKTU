@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_ym/constants/strings.dart';
+import 'package:project_ym/components/error_and_load/error.dart';
 
+
+import '../components/error_and_load/load_indicator.dart';
+import '../components/profile_list_comps/general_profile_list.dart';
+import '../components/profile_list_comps/student_profile_list.dart';
 import '../constants/enums.dart';
+import '../constants/strings.dart';
 import '../services/data_transfer_service.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -19,27 +24,8 @@ class ProfilePage extends ConsumerStatefulWidget {
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   // ignore: prefer_typing_uninitialized_variables
-  var userProvider;
-
-  Widget _buildChip(String label, Color color) {
-    return Chip(
-      labelPadding: const EdgeInsets.all(2.0),
-      avatar: CircleAvatar(
-        backgroundColor: Colors.white70,
-        child: Text(label[0].toUpperCase()),
-      ),
-      label: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: color,
-      elevation: 6.0,
-      shadowColor: Colors.grey[60],
-      padding: const EdgeInsets.all(8.0),
-    );
-  }
+  late final userProvider; // at the initState type can be change that's why we ignore: prefer_typing_uninitialized_variables
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -57,7 +43,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ref.read(dataServiceProvider).getEmployer(widget.userID));
         break;
       default:
-        return null;
+        return;
     }
     super.initState();
   }
@@ -66,162 +52,99 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     AsyncValue<dynamic> user = ref.watch(userProvider);
 
-    return Scaffold(
-      body: CustomScrollView(slivers: [
-        SliverAppBar(
-          actions: [
-
-          ],
-
-
-
-
-          expandedHeight: 200,
-          flexibleSpace: FlexibleSpaceBar(
-
-            centerTitle: false,
-            titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                user.when(
-                    data: (data) => data.image != null
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(data.image),
-                          )
-                        : const CircleAvatar(
-                            child: Icon(Icons.person),
-                          ),
-                    loading: () => const CircleAvatar(
-                          child: Icon(Icons.person),
-                          ),
-                    error: (error, stack) => const Text('Error')),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: user.when(
-                    data: (data) => Text(
-                      data.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    loading: () => const CircularProgressIndicator(),
-                    error: (error, stack) => const Text('Error'),
-                  ),
-                ),
+    return SafeArea(
+      child: Scaffold(
+        body: RefreshIndicator(
+          onRefresh: () async {
+            user = ref.refresh(userProvider);
+          },
+          child: CustomScrollView(slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(onPressed: () {
+                  //TODO edit will be add
+                }, icon: const Icon(Icons.edit))
               ],
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              user.when(
-                data: (data) => Column(
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: false,
+                titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
-                    ListTile(
-                      title: const Text(Strings.about),
-                      subtitle: Text(data.description),
-                    ),
-                    const SizedBox(height: 10),
-                    ListTile(
-                      title: const Text('Contact'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.email),
-                                SizedBox(width: 10),
-                                Text('Email'),
-                              ],
+                    user.when(
+                        data: (data) => data.image != null
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(data.image),
+                              )
+                            : const CircleAvatar(
+                                child: Icon(Icons.person),
+                              ),
+                        loading: () => const CircleAvatar(
+                              child: Icon(Icons.person),
                             ),
-                            subtitle: Text(data.contactInfo.email),
+                        error: (error, stack) => const CircleAvatar(
+                              child: Icon(Icons.error, color: Colors.red),
+                            )),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: user.when(
+                        data: (data) => Text(
+                          data.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          ListTile(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.phone),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text('Phone'),
-                              ],
-                            ),
-                            subtitle: Text(data.contactInfo.phone),
-                          ),
-                          ListTile(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.location_on),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text('Address'),
-                              ],
-                            ),
-                            subtitle: Text(data.contactInfo.address),
-                          ),
-
-                        ],
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, stack) => const Text(Strings.error),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    if (data.accountType == AccountType.student)
-                      Column(
-                        children: [
-                          ListTile(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.location_city),
-                                SizedBox(width: 10),
-                                Text('Live in'),
-                              ],
-                            ),
-                            subtitle: Text(data.city),
-                          ),
-                          ListTile(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.school),
-                                SizedBox(width: 10),
-                                Text('Studied at'),
-                              ],
-                            ),
-                            subtitle: Text(data.school),
-                          ),
-
-                          ListTile(
-                            title: const Text('Skills'),
-                            subtitle: data.technologies != null
-                                ? Wrap(
-                                    spacing: 6.0,
-                                    children: [
-                                      for (var skill in data.technologies)
-                                        _buildChip(skill, Colors.blue),
-                                    ],
-                                  )
-                                : const Text('No skills'),
-                          ),
-
-                        ],
-                      ),
+                    IconButton(
+                      //TODO this Icon should be view by auth
+                        onPressed: () {
+                          setState(() {
+                            isChecked = !isChecked;
+                          });
+                        },
+                        icon: isChecked
+                            ? const Icon(
+                                Icons.check_circle_outline,
+                                color: Colors.green,
+                              )
+                            : const Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.white,
+                              )),
                   ],
                 ),
-                loading: () => const Center(
-                    child: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator())),
-                error: (error, stack) => const Center(child: Text('Error')),
               ),
-            ],
-          ),
-        )
-      ]),
+            ),
+            user.when(
+                data: (data) => SliverList(
+                        delegate: SliverChildListDelegate([
+                      Column(
+                        children: [
+                          GeneralProfileList(data: data),
+                          if (data.accountType == AccountType.student)
+                            StudentProfileList(
+                              data: data,
+                            ),
+                        ],
+                      ),
+                    ])),
+                loading: () => SliverList(
+                      delegate: SliverChildListDelegate([
+                        const LoadIndicator(),
+                      ]),
+                    ),
+                error: (error, stack) => SliverList(
+                    delegate:
+                        SliverChildListDelegate([ErrorView(error: error)]))),
+          ]),
+        ),
+      ),
     );
   }
 }
