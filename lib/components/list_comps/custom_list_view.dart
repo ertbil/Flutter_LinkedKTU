@@ -36,7 +36,7 @@ class CustomListView extends ConsumerWidget {
               .toList(),
         ),
         loading: () => const LoadIndicator(),
-        error: (error, stack) => SingleChildScrollView(child: ErrorView(error: error)),
+        error: (error, stack) => ErrorView(error: error),
       ),
     );
   }

@@ -34,21 +34,21 @@ class GeneralProfileList extends StatelessWidget {
                 title: Row(
                   children:  [
                     IconButton(icon: const Icon(Icons.email),onPressed: () {
-                      Uri url = Uri.parse('mailto:${data.contactInfo.email}');
+                      Uri url = Uri.parse('mailto:${data.email}');
                       _launchUrl(url);
                     },),
                     const SizedBox(width: 10),
                     const Text(Strings.email),
                   ],
                 ),
-                subtitle: Text(data.contactInfo.email),
+                subtitle: Text(data.email),
               ),
               ListTile(
                 title: Row(
                   children:  [
                     IconButton(icon:  const Icon(Icons.phone),
                     onPressed: () {
-                       Uri url = Uri.parse('tel:${data.contactInfo.phone}');
+                       Uri url = Uri.parse('tel:${data.contactPhone}');
                        _launchUrl(url);
                     },),
                     const SizedBox(
@@ -57,7 +57,7 @@ class GeneralProfileList extends StatelessWidget {
                     const Text(Strings.phone),
                   ],
                 ),
-                subtitle: Text(data.contactInfo.phone),
+                subtitle: Text(data.contactPhone),
               ),
               ListTile(
                 title: Row(
@@ -69,7 +69,7 @@ class GeneralProfileList extends StatelessWidget {
                     Text('Address'),
                   ],
                 ),
-                subtitle: Text(data.contactInfo.address),
+                subtitle: Text(data.contactAdress),
               ),
             ],
           ),

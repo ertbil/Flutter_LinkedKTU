@@ -35,10 +35,10 @@ dependencies:
   http: ^0.13.5
   fluttertoast: ^8.0.9
   shared_preferences: ^2.0.15
-  #flutter_secure_storage: ^6.1.0
+
   flutter_native_splash: ^2.2.16
   flutter_launcher_icons: ^0.11.0
-  searchfield: ^0.7.2
+
   url_launcher: ^6.1.7
 
 
