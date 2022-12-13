@@ -1,4 +1,4 @@
-import 'package:project_ym/models/contact_models/contact_info_model.dart';
+
 import 'package:project_ym/models/user_models/student_model.dart';
 import 'package:project_ym/models/user_models/user_model.dart';
 
@@ -14,7 +14,9 @@ class Lecturer extends User {
     required String name,
     required String description,
     required String image,
-    required ContactInfo contactInfo,
+    required bool isVerified,
+    required bool isAdmin,
+
     required this.approvedStudents,
   }) : super(
           id: id,
@@ -23,8 +25,9 @@ class Lecturer extends User {
           name: name,
           description: description,
           image: image,
-          contactInfo: contactInfo,
           accountType: AccountType.lecturer,
+          isVerified: isVerified,
+          isAdmin: isAdmin,
         );
 
   Lecturer.fromMap(Map<String, dynamic> map)
@@ -38,8 +41,7 @@ class Lecturer extends User {
       'password': password,
       'name': name,
       'description': description,
-      'image': image,
-      'contactInfoID': contactInfo,
+
     };
   }
 }

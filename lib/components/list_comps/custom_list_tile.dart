@@ -21,7 +21,7 @@ class CustomListTile extends StatelessWidget {
           : const CircleAvatar(
         child: Icon(
           Icons.person,
-          size: 50,
+
         ),
       ),
       title: Text(account.name),

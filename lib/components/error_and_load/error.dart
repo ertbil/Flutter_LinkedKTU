@@ -16,6 +16,7 @@ class ErrorView extends StatelessWidget {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: MediaQuery.of(context).size.height*0.4),
             const Icon(Icons.error, color: Colors.red, size: 60),
             const Text(Strings.error),
             Padding(
@@ -24,6 +25,9 @@ class ErrorView extends StatelessWidget {
                 error.toString(),
                 textAlign: TextAlign.center,
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.5,
             ),
 
 

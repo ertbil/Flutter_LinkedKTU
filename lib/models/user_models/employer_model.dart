@@ -1,5 +1,5 @@
-import 'package:project_ym/models/contact_models/contact_info_model.dart';
 import 'package:project_ym/models/user_models/user_model.dart';
+
 import '../../constants/enums.dart';
 import '../post_models/job_post_model.dart';
 
@@ -11,7 +11,6 @@ class Employer extends User {
   final List<String>? languages;
   final List<JobPost>? jobPosts;
 
-
   Employer({
     required int id,
     required String email,
@@ -19,7 +18,8 @@ class Employer extends User {
     required String name,
     required String description,
     required String image,
-    required ContactInfo contactInfo,
+    required bool isVerified,
+    required bool isAdmin,
     this.city,
     this.isInternshipRemote,
     this.isWorkRemote,
@@ -32,9 +32,9 @@ class Employer extends User {
           password: password,
           name: name,
           description: description,
-          image: image,
-          contactInfo: contactInfo,
           accountType: AccountType.employer,
+          isVerified: isVerified,
+          isAdmin: isAdmin,
         );
 
   Employer.fromMap(Map<String, dynamic> map)
@@ -60,7 +60,6 @@ class Employer extends User {
       'technologies': technologies,
       'languages': languages,
       'jobPosts': jobPosts,
-      'contactInfo': contactInfo,
     };
   }
 }

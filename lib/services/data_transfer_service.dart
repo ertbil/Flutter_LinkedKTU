@@ -107,7 +107,7 @@ class DataService {
 
   Future<Student> getStudent(int id) async {
     final decodedData = await DataService.get('${Endpoints.students}/$id');
-    return Student.fromMap(decodedData['data']);
+    return Student.fromMap(decodedData['data'][0]);
   }
 
   Future<Lecturer> getLecturer(int id) async {
