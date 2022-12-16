@@ -17,12 +17,12 @@ class Student extends User {
 
 
   Student({
-    required int id,
+    required String id,
     required String email,
     required String password,
     required String name,
-    required String description,
-    required String image,
+    String? description,
+    String? image,
     required bool isVerified,
     required bool isAdmin,
 
@@ -40,7 +40,7 @@ class Student extends User {
           password: password,
           name: name,
           description: description,
-          image: image,
+          image: image,  // default image
           accountType: AccountType.student,
           isVerified: isVerified,
           isAdmin: isAdmin,
@@ -55,6 +55,29 @@ class Student extends User {
         appliedJobs = null, //map['appliedJobs'] ,
         lecturersThatApproved =null, // map['lecturersThatApproved'] ,
         super.fromMap(map);
+
+  toMap() {
+return {
+      'ID': id,
+      'Email': email,
+      'Password': password,
+      'Fullname': name,
+      'Description': description,
+      'Image': image,
+      'AccountType': accountType,
+      'Phone': contactPhone,
+      'Address': contactAdress,
+      'isVerified': isVerified,
+      'isAdmin': isAdmin,
+      'School': school,
+      'City': city,
+      'languages': languages,
+      'technologies': technologies,
+      'experience': experience,
+      'appliedJobs': appliedJobs,
+      'lecturersThatApproved': lecturersThatApproved,
+    };
+  }
 
 
 

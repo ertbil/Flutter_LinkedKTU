@@ -17,10 +17,15 @@ class StudentRepo extends ChangeNotifier {
     return students;
   }
 
-  Future<Student> getStudent(int id) async {
+  Future<Student> getStudent(String id) async {
     student = await converter.getStudent(id);
     notifyListeners();
     return student;
+  }
+
+  addStudent(Student student) {
+    converter.addStudent(student);
+    notifyListeners();
   }
 }
 

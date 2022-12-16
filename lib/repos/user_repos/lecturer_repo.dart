@@ -17,11 +17,17 @@ class LecturerRepo extends ChangeNotifier {
     return lecturers;
   }
 
-  Future<Lecturer> getLecturer(int userID) {
+  Future<Lecturer> getLecturer(String userID) {
     lecturer = converter.getLecturer(userID);
     notifyListeners();
     return lecturer;
   }
+
+  addLecturer(Lecturer lecturer) {
+    converter.addLecturer(lecturer);
+    notifyListeners();
+  }
+
 }
 
 final lecturerProvider = ChangeNotifierProvider(

@@ -5,6 +5,9 @@ class Endpoints {
   static const String students = 'students';
   static const String jobposts = 'jobposts';
   static const String employers = 'employers';
-  static const String skills = 'skills';
+  static const String technology = 'technologies';
+  static const String login = 'login';
+  static const String register = 'register';
+  static const String auth = 'auth';
 
 }
