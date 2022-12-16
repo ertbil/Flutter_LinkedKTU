@@ -1,7 +1,7 @@
 import '../../constants/enums.dart';
 
 class User {
-  final int id;
+  final String id;
   final String email ;
   final String password;
   final String name;
@@ -28,14 +28,13 @@ class User {
   });
 
   User.fromMap(Map<String, dynamic> map)
-      : id = map['ID']??-1,
+      : id = map['ID'],
         email = map['Email']??"loremipsum@gmail.com",
         password = map['Password']??"123456",
         name = map['Fullname']??"John Doe",
         description = map['Description'],
         image = map['Image'],
-        accountType = AccountType.student,
-        //map['accountType'] ,
+        accountType = int2AccountTypeConverter(map['AccountType']),
         contactPhone = map['Phone'],
         contactAdress = map['Address'],
         isVerified = false, // map['isVerified'],

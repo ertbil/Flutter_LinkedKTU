@@ -12,12 +12,12 @@ class Employer extends User {
   final List<JobPost>? jobPosts;
 
   Employer({
-    required int id,
+    required String id,
     required String email,
     required String password,
     required String name,
-    required String description,
-    required String image,
+     String? description,
+     String? image,
     required bool isVerified,
     required bool isAdmin,
     this.city,
@@ -41,9 +41,9 @@ class Employer extends User {
       : city = map['city'],
         isInternshipRemote = map['isInternshipRemote'],
         isWorkRemote = map['isWorkRemote'],
-        technologies = map['technologies'],
-        languages = map['languages'],
-        jobPosts = map['jobPosts'],
+        technologies = null, // map['technologies'],
+        languages = null,//map['languages'],
+        jobPosts =  null, //map['jobPosts'],
         super.fromMap(map);
 
   toMap() {
@@ -51,7 +51,7 @@ class Employer extends User {
       'id': id,
       'email': email,
       'password': password,
-      'name': name,
+      'fullname': name,
       'description': description,
       'image': image,
       'city': city,

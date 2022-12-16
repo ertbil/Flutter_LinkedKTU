@@ -5,19 +5,19 @@ import 'package:project_ym/models/user_models/user_model.dart';
 import '../../constants/enums.dart';
 
 class Lecturer extends User {
-  final List<Student> approvedStudents;
+  final List<Student>? approvedStudents;
 
   Lecturer({
-    required int id,
+    required String id,
     required String email,
     required String password,
     required String name,
-    required String description,
-    required String image,
+     String? description,
+     String? image,
     required bool isVerified,
     required bool isAdmin,
 
-    required this.approvedStudents,
+     this.approvedStudents,
   }) : super(
           id: id,
           email: email,

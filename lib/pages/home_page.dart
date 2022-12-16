@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_ym/constants/colors.dart';
+import 'package:project_ym/models/user_models/employer_model.dart';
 import 'package:project_ym/models/user_models/lecturer_model.dart';
 import 'package:project_ym/models/user_models/student_model.dart';
 import 'package:project_ym/repos/user_repos/student_repo.dart';
@@ -11,6 +12,7 @@ import '../components/drawer.dart';
 import '../components/list_comps/custom_list_view.dart';
 import '../components/text_field_comps/search_box.dart';
 import '../constants/strings.dart';
+import '../repos/user_repos/employer_repo.dart';
 import '../repos/user_repos/lecturer_repo.dart';
 
 // ignore: must_be_immutable
@@ -25,6 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late FutureProvider<List<Student>> newStudentListProvider;
   late FutureProvider<List<Lecturer>> newLecturerListProvider;
+  late FutureProvider<List<Employer>> newEmployerListProvider;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
@@ -35,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     newStudentListProvider = studentListProvider;
     newLecturerListProvider = lecturerListProvider;
+    newEmployerListProvider = employerListProvider;
 
     super.initState();
   }
@@ -58,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       Column(
         children: [
           Expanded(
-            child: CustomListView(newLecturerListProvider),
+            child: CustomListView(newEmployerListProvider),
           ),
         ],
       ),
