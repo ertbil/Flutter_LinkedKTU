@@ -17,10 +17,15 @@ class EmployerRepo extends ChangeNotifier {
     return employers;
   }
 
-  Future<Employer> getEmployer(int userID) {
+  Future<Employer> getEmployer(String userID) {
     employer = converter.getEmployer(userID);
     notifyListeners();
     return employer;
+  }
+
+  addEmployer(Employer employer) {
+    converter.addEmployer(employer);
+    notifyListeners();
   }
 }
 
@@ -30,7 +35,7 @@ final employerProvider = ChangeNotifierProvider(
   },
 );
 
-final FutureProvider<List<Employer>> productListProvider =
+final FutureProvider<List<Employer>> employerListProvider =
     FutureProvider((ref) async {
   return ref.read(dataServiceProvider).getEmployers();
 });

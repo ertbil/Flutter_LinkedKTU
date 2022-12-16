@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_ym/models/post_models/job_post_model.dart';
@@ -14,6 +15,7 @@ class DataService {
   static dynamic get(String path) async {
     final response = await http.get(Uri.parse('${Endpoints.baseUrl}/$path'));
     if (response.statusCode == 200) {
+      debugPrint(jsonDecode(response.body).toString());
       return jsonDecode(response.body);
     } else {
       throw Exception(
@@ -22,15 +24,23 @@ class DataService {
   }
 
   static dynamic post(String path, dynamic data) async {
-    final response =
-        await http.post(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+    final  response = await http.post(
+      Uri.parse('${Endpoints.baseUrl}/$path'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+
+    );
     if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+
+      return;
     } else {
-      throw Exception(
-          'Failed to load data from $path error: ${response.statusCode}');
+
+      throw Exception('User creation ended with failure ${response.statusCode} ${response.body}');
     }
   }
+
 
   static dynamic put(String path, dynamic data) async {
     final response =
@@ -100,38 +110,54 @@ class DataService {
 
   /// This Methods are used to only one entity from the database.
 
-  Future<Post> getPost(int id) async {
+  Future<Post> getPost(String id) async {
     final decodedData = await DataService.get('${Endpoints.posts}/$id');
     return Post.fromMap(decodedData);
   }
 
-  Future<Student> getStudent(int id) async {
+  Future<Student> getStudent(String id) async {
     final decodedData = await DataService.get('${Endpoints.students}/$id');
     return Student.fromMap(decodedData['data'][0]);
   }
 
-  Future<Lecturer> getLecturer(int id) async {
+  Future<Lecturer> getLecturer(String id) async {
     final decodedData = await DataService.get('${Endpoints.lecturer}/$id');
-    return Lecturer.fromMap(decodedData);
+    return Lecturer.fromMap(decodedData['data'][0]);
   }
 
-  Future<JobPost> getJobPost(int id) async {
+  Future<JobPost> getJobPost(String id) async {
     final decodedData = await DataService.get('${Endpoints.jobposts}/$id');
-    return JobPost.fromMap(decodedData);
+    return JobPost.fromMap(decodedData['data'][0]);
   }
 
-  Future<Employer> getEmployer(int id) async {
+  Future<Employer> getEmployer(String id) async {
     final decodedData = await DataService.get('${Endpoints.employers}/$id');
-    return Employer.fromMap(decodedData);
+    return Employer.fromMap(decodedData['data'][0]);
   }
 
   Future<List<Student>> getStudentByTechs(String tech) async {
     var decodedData = await DataService.get(
-        '${Endpoints.students}/${Endpoints.skills}/$tech');
-    decodedData = decodedData['data'];
+        '${Endpoints.students}/${Endpoints.technology}/$tech');
+    decodedData = decodedData['data'][0];
     return decodedData.map<Student>((element) {
       return Student.fromMap(element);
     }).toList();
+  }
+
+  static addUser(path, data) async {
+    return await DataService.post('$path/${Endpoints.auth}/${Endpoints.register}', data);
+  }
+
+  void addEmployer(Employer employer) {
+    DataService.addUser(Endpoints.employers, employer.toMap());
+  }
+
+  void addLecturer(Lecturer lecturer) {
+    DataService.addUser(Endpoints.lecturer, lecturer.toMap());
+  }
+
+  void addStudent(Student student) {
+    DataService.addUser(Endpoints.students, student.toMap());
   }
 }
 

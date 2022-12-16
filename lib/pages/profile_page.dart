@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_ym/components/error_and_load/error.dart';
 
-
 import '../components/error_and_load/load_indicator.dart';
 import '../components/profile_list_comps/general_profile_list.dart';
 import '../components/profile_list_comps/student_profile_list.dart';
@@ -12,10 +11,10 @@ import '../services/data_transfer_service.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage(
-      {this.userID = -1, this.accountType = AccountType.onError, Key? key})
+      {this.userID = "-1", this.accountType = AccountType.onError, Key? key})
       : super(key: key);
 
-  final int userID;
+  final String userID;
   final AccountType accountType;
 
   @override
@@ -62,9 +61,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             SliverAppBar(
               automaticallyImplyLeading: false,
               actions: [
-                IconButton(onPressed: () {
-                  //TODO edit will be add
-                }, icon: const Icon(Icons.edit))
+                IconButton(
+                    onPressed: () {
+                      //TODO edit will be add
+                    },
+                    icon: const Icon(Icons.edit))
               ],
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
@@ -102,7 +103,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                     ),
                     IconButton(
-                      //TODO this Icon should be view by auth
+                        //TODO this Icon should be view by auth
                         onPressed: () {
                           setState(() {
                             isChecked = !isChecked;
