@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+//TODO kullan
 class LoadDialog extends StatelessWidget {
   const LoadDialog({
     Key? key,
