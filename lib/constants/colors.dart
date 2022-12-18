@@ -13,4 +13,6 @@ class MyColors {
     800: Color(0xff004766),
     900: Color(0xff00374B),
   });
+
+  static const toastColor =  Color.fromRGBO(66, 66, 66, 1.0);
 }
