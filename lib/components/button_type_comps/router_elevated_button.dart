@@ -7,6 +7,7 @@ class RouterElevatedButton extends StatelessWidget {
   final Widget page;
   final IconData? icon;
   final GlobalKey<FormState>? formKey;
+  final bool condition;
 
   const RouterElevatedButton({
     Key? key,
@@ -15,12 +16,14 @@ class RouterElevatedButton extends StatelessWidget {
     required this.page,
     this.icon,
     this.formKey,
+    this.condition = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+
         if (formKey != null) {
           if (formKey!.currentState!.validate()) {
             pushReplacement

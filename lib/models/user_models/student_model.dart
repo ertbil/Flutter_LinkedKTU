@@ -64,7 +64,7 @@ return {
       'Fullname': name,
       'Description': description,
       'Image': image,
-      'AccountType': accountType,
+      'AccountType': accountType2IntConverter(AccountType.student),
       'Phone': contactPhone,
       'Address': contactAdress,
       'isVerified': isVerified,

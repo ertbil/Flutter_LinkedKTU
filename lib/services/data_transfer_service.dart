@@ -1,65 +1,65 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_ym/models/post_models/job_post_model.dart';
 import 'package:project_ym/models/user_models/employer_model.dart';
 import 'package:project_ym/models/user_models/lecturer_model.dart';
-
 import '../constants/endpoints.dart';
+import '../models/auth_models/login_model.dart';
 import '../models/post_models/post_model.dart';
 import '../models/user_models/student_model.dart';
 
 class DataService {
   static dynamic get(String path) async {
     final response = await http.get(Uri.parse('${Endpoints.baseUrl}/$path'));
-    if (response.statusCode == 200) {
-      debugPrint(jsonDecode(response.body).toString());
-      return jsonDecode(response.body);
+
+    if (jsonDecode(response.body)['success']) {
+      return jsonDecode(response.body)['data'];
     } else {
-      throw Exception(
-          'Failed to load data from $path error: ${response.statusCode} } ');
+      throw Exception('Failed to load data');
     }
   }
 
   static dynamic post(String path, dynamic data) async {
-    final  response = await http.post(
+    final response = await http.post(
       Uri.parse('${Endpoints.baseUrl}/$path'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(data),
-
     );
-    if (response.statusCode == 201) {
-
-      return;
-    } else {
-
-      throw Exception('User creation ended with failure ${response.statusCode} ${response.body}');
+    try {
+      if (jsonDecode(response.body)['success']) {
+        debugPrint(jsonDecode(response.body)['data'].toString());
+        return jsonDecode(response.body)['data'];
+      } else {
+        throw Exception(jsonDecode(response.body)['error']);
+      }
+    }
+    catch (e) {
+      throw Exception('Something went wrong status: ${response.statusCode}');
     }
   }
 
-
   static dynamic put(String path, dynamic data) async {
     final response =
-        await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+    await http.put(Uri.parse('${Endpoints.baseUrl}/$path'), body: data);
+
+    if (jsonDecode(response.body)['success']) {
+      return jsonDecode(response.body)['data'];
     } else {
-      throw Exception(
-          'Failed to load data from $path error: ${response.statusCode}');
+      throw Exception('Failed to load data');
     }
   }
 
   static dynamic delete(String path) async {
     final response = await http.delete(Uri.parse('${Endpoints.baseUrl}/$path'));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+
+    if (jsonDecode(response.body)['success']) {
+      return jsonDecode(response.body)['data'];
     } else {
-      throw Exception(
-          'Failed to load data from $path error: ${response.statusCode}');
+      throw Exception('Failed to load data');
     }
   }
 
@@ -72,13 +72,13 @@ class DataService {
 
   Future<List<Post>> getPosts() async {
     var decodedData = await DataService.get(Endpoints.posts);
-    decodedData = decodedData['data'];
+
     return decodedData.map<Post>((element) => Post.fromMap(element)).toList();
   }
 
   Future<List<Student>> getStudents() async {
     var decodedData = await DataService.get(Endpoints.students);
-    decodedData = decodedData['data'];
+
     return decodedData.map<Student>((element) {
       return Student.fromMap(element);
     }).toList();
@@ -86,7 +86,7 @@ class DataService {
 
   Future<List<Lecturer>> getLecturers() async {
     var decodedData = await DataService.get(Endpoints.lecturer);
-    decodedData = decodedData['data'];
+
     return decodedData
         .map<Lecturer>((element) => Lecturer.fromMap(element))
         .toList();
@@ -94,7 +94,7 @@ class DataService {
 
   Future<List<JobPost>> getJobPosts() async {
     var decodedData = await DataService.get(Endpoints.jobposts);
-    decodedData = decodedData['data'];
+
     return decodedData
         .map<JobPost>((element) => JobPost.fromMap(element))
         .toList();
@@ -102,7 +102,7 @@ class DataService {
 
   Future<List<Employer>> getEmployers() async {
     var decodedData = await DataService.get(Endpoints.employers);
-    decodedData = decodedData['data'];
+
     return decodedData
         .map<Employer>((element) => Employer.fromMap(element))
         .toList();
@@ -117,48 +117,72 @@ class DataService {
 
   Future<Student> getStudent(String id) async {
     final decodedData = await DataService.get('${Endpoints.students}/$id');
-    return Student.fromMap(decodedData['data'][0]);
+    return Student.fromMap(decodedData[0]);
   }
 
   Future<Lecturer> getLecturer(String id) async {
     final decodedData = await DataService.get('${Endpoints.lecturer}/$id');
-    return Lecturer.fromMap(decodedData['data'][0]);
+    return Lecturer.fromMap(decodedData[0]);
   }
 
   Future<JobPost> getJobPost(String id) async {
     final decodedData = await DataService.get('${Endpoints.jobposts}/$id');
-    return JobPost.fromMap(decodedData['data'][0]);
+    return JobPost.fromMap(decodedData[0]);
   }
 
   Future<Employer> getEmployer(String id) async {
     final decodedData = await DataService.get('${Endpoints.employers}/$id');
-    return Employer.fromMap(decodedData['data'][0]);
+    return Employer.fromMap(decodedData[0]);
   }
+
+  /// This methods get list by things.
 
   Future<List<Student>> getStudentByTechs(String tech) async {
     var decodedData = await DataService.get(
         '${Endpoints.students}/${Endpoints.technology}/$tech');
-    decodedData = decodedData['data'][0];
+
     return decodedData.map<Student>((element) {
       return Student.fromMap(element);
     }).toList();
   }
 
-  static addUser(path, data) async {
-    return await DataService.post('$path/${Endpoints.auth}/${Endpoints.register}', data);
+  /// This methods are used to add new entities to the database.
+
+  static Future addUser(path, data) async {
+    return await DataService.post(
+        '$path/${Endpoints.auth}/${Endpoints.register}', data);
   }
 
-  void addEmployer(Employer employer) {
-    DataService.addUser(Endpoints.employers, employer.toMap());
+  Future addEmployer(Employer employer) {
+    return DataService.addUser(Endpoints.employers, employer.toMap());
   }
 
-  void addLecturer(Lecturer lecturer) {
-    DataService.addUser(Endpoints.lecturer, lecturer.toMap());
+  Future addLecturer(Lecturer lecturer) {
+    return DataService.addUser(Endpoints.lecturer, lecturer.toMap());
   }
 
-  void addStudent(Student student) {
-    DataService.addUser(Endpoints.students, student.toMap());
+  Future addStudent(Student student) {
+    return DataService.addUser(Endpoints.students, student.toMap());
   }
+
+  static Future login(String path, data) async {
+    return await DataService.post(
+        '$path/${Endpoints.auth}/${Endpoints.login}', data);
+  }
+
+  Future studentLogin(Login loginData) async {
+    return login(Endpoints.students, loginData.toMap());
+  }
+
+  Future employerLogin(Login loginData) async {
+    return login(Endpoints.employers, loginData.toMap());
+  }
+
+  Future lecturerLogin(Login loginData) async {
+    return login(Endpoints.lecturer, loginData.toMap());
+  }
+
+
 }
 
 final dataServiceProvider = Provider((ref) => DataService());

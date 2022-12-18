@@ -1,27 +1,32 @@
 import 'dart:ui';
 
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_ym/components/button_type_comps/dropdown_button.dart';
 import 'package:project_ym/components/logo_and_name.dart';
-
+import 'package:project_ym/constants/colors.dart';
 import 'package:project_ym/constants/strings.dart';
+import 'package:project_ym/pages/home_page.dart';
 import 'package:project_ym/pages/register_page.dart';
+import 'package:project_ym/services/routing_services.dart';
 
 import '../components/button_type_comps/router_elevated_button.dart';
 import '../components/text_field_comps/custom_text_form_field.dart';
-import 'home_page.dart';
+import '../constants/enums.dart';
+import '../models/auth_models/login_model.dart';
+import '../services/data_transfer_service.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
-
-
+  final TextEditingController passwordConroller = TextEditingController();
+  var selectedAccountType;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -60,13 +65,27 @@ class LoginPage extends StatelessWidget {
                     prefixIcon: const Icon(Icons.person),
                     isEmail: true,
                     controller: emailController,
-
-
                   ),
                   CustomTextFormField(
-                      hintText: Strings.password,
-                      prefixIcon: const Icon(Icons.lock),
-                      isPassword: true),
+                    hintText: Strings.password,
+                    prefixIcon: const Icon(Icons.lock),
+                    isPassword: true,
+                    controller: passwordConroller,
+                  ),
+
+                  CustomDropDownButton(
+                    value: selectedAccountType,
+                    items: accountTypes
+                        .map((e) => DropdownMenuItem(
+                              value: string2AccounTypeConverter(e),
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    hintText: Strings.accountType,
+                    onChanged: (value) {
+                      selectedAccountType = value;
+                    },
+                  ),
                   Row(
                     children: [
                       TextButton(
@@ -79,16 +98,85 @@ class LoginPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RouterElevatedButton(
-                        page:  HomePage(),
-                        text: Strings.login,
-                        pushReplacement: true,
-                        formKey: formKey,
-                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            switch (selectedAccountType) {
+                              case AccountType.student:
+                                final login = Login(
+                                    email: emailController.text,
+                                    password: passwordConroller.text);
+
+                               final result = ref
+                                    .read(dataServiceProvider)
+                                    .studentLogin(login);
+
+                               result.then((value) {
+                                 RouterService.pushReplacementRoute(context, HomePage());
+
+                               },onError: (e){
+
+                                 Fluttertoast.showToast(msg: e.toString(),
+                                 backgroundColor: MyColors.toastColor,
+                                 textColor: Colors.white);
+
+                               });
+                                break;
+                              case AccountType.lecturer:
+                                final login = Login(
+                                    email: emailController.text,
+                                    password: passwordConroller.text);
+
+                                final result = ref
+                                    .read(dataServiceProvider)
+                                    .lecturerLogin(login);
+
+                                result.then((value) {
+                                  RouterService.pushReplacementRoute(context, HomePage());
+
+                                },onError: (e){
+
+                                  Fluttertoast.showToast(msg: e.toString(),
+                                      backgroundColor: MyColors.toastColor,
+                                      textColor: Colors.white);
+
+                                });
+                                break;
+                              case AccountType.employer:
+                                final login = Login(
+                                    email: emailController.text,
+                                    password: passwordConroller.text);
+
+                                final result = ref
+                                    .read(dataServiceProvider)
+                                    .employerLogin(login);
+
+                                result.then((value) {
+                                  RouterService.pushReplacementRoute(context, HomePage());
+
+                                },onError: (e){
+
+                                  Fluttertoast.showToast(msg: e.toString(),
+                                      backgroundColor: MyColors.toastColor,
+                                      textColor: Colors.white);
+
+                                });
+
+                                break;
+
+                              default:
+                                Fluttertoast.showToast(
+                                    msg: "You Must Select a Account Type",
+                                    backgroundColor: MyColors.toastColor,
+                                    textColor: Colors.white);
+
+                                break;
+                            }
+                          },
+                          child: Text(Strings.login)),
                       const SizedBox(
                         width: 20,
                       ),
-                      const RouterElevatedButton(
+                      RouterElevatedButton(
                           pushReplacement: true,
                           page: RegisterPage(),
                           text: Strings.signUp),

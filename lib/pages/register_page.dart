@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_ym/components/button_type_comps/dropdown_button.dart';
 import 'package:project_ym/components/logo_and_name.dart';
 import 'package:project_ym/constants/enums.dart';
-import 'package:project_ym/models/user_models/employer_model.dart';
-import 'package:project_ym/models/user_models/lecturer_model.dart';
 import 'package:project_ym/pages/login_screen.dart';
 
 import '../components/button_type_comps/router_elevated_button.dart';
 import '../components/text_field_comps/custom_text_form_field.dart';
+import '../constants/colors.dart';
 import '../constants/strings.dart';
+import '../models/user_models/employer_model.dart';
+import '../models/user_models/lecturer_model.dart';
 import '../models/user_models/student_model.dart';
 import '../services/data_transfer_service.dart';
 
 class RegisterPage extends ConsumerWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
 
-  //TODO this page
+  var selectedAccountType;
+  final formKey = GlobalKey<FormState>();
+  final mailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formKey = GlobalKey<FormState>();
-    final mailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-    final nameController = TextEditingController();
-    var selectedAccountType;
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -65,97 +65,148 @@ class RegisterPage extends ConsumerWidget {
                     prefixIcon: const Icon(Icons.lock),
                     isPassword: true,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButtonFormField(
-                      hint: const Text(Strings.accountType),
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          prefixIcon: const Icon(Icons.class_)),
-                      items: accountTypes
-                          .map((e) =>
-                          DropdownMenuItem(
-                            value: string2AccounTypeConverter(e),
-                            child: Text(e),
-                          ))
-                          .toList(),
-                      onChanged: (value) {
-                        selectedAccountType = value;
-                      },
-                    ),
+                  CustomDropDownButton(
+                    value: selectedAccountType,
+                    items: accountTypes
+                        .map((e) => DropdownMenuItem(
+                              value: string2AccounTypeConverter(e),
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    hintText: Strings.accountType,
+                    onChanged: (value) {
+                      selectedAccountType = value;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          switch (selectedAccountType) {
-                            case AccountType.student:
-                              final student = Student(
-                                id: "0",
-                                name: nameController.text,
-                                email: mailController.text,
-                                password: passwordController.text,
-                                isAdmin: false,
-                                isVerified: false,
-                              );
-                              try {
-                                ref
-                                    .watch(dataServiceProvider)
+                          onPressed: () {
+                            switch (selectedAccountType) {
+
+                              case AccountType.student:
+
+                                final student = Student(
+                                  id: "0",
+                                  name: nameController.text,
+                                  email: mailController.text,
+                                  password: passwordController.text,
+                                  isAdmin: false,
+                                  isVerified: false,
+                                );
+
+                                final result = ref
+                                    .read(dataServiceProvider)
                                     .addStudent(student);
-                              }
-                              catch (e,s) {
-                                Fluttertoast.showToast(msg: s.toString() ,
-                                    backgroundColor: const Color.fromRGBO(
-                                        66, 66, 66, 100),
-                                    textColor: Colors.white);
-                              }
-                              break;
-                            case AccountType.lecturer:
-                              final lecturer = Lecturer(
-                                id: "0",
-                                email: mailController.text,
-                                password: passwordController.text,
-                                name: nameController.text,
-                                isVerified: false,
-                                isAdmin: false,
+
+                             result.then((value) {
+                               debugPrint(value.toString());
+                               Fluttertoast.showToast(msg: value.toString(),);
+
+
+                             },
+                               onError: (error) {
+                                 Fluttertoast.showToast(
+                                   msg: error.toString(),
+                                   toastLength: Toast.LENGTH_LONG,
+                                   gravity: ToastGravity.BOTTOM,
+                                   timeInSecForIosWeb: 1,
+                                   backgroundColor: MyColors.toastColor,
+                                   textColor: Colors.white,
+                                   fontSize: 16.0,
+                                 );
+                               }
                               );
-                              ref
-                                  .watch(dataServiceProvider)
-                                  .addLecturer(lecturer);
-                              break;
-                            case AccountType.employer:
-                              final employer = Employer(
-                                id: "0",
-                                email: mailController.text,
-                                password: passwordController.text,
-                                name: nameController.text,
-                                isVerified: false,
-                                isAdmin: false,
-                                isInternshipRemote: false,
-                                isWorkRemote: false,
-                              );
-                              try {
-                                ref
-                                    .watch(dataServiceProvider)
+
+                                break;
+
+                              case AccountType.lecturer:
+                                final lecturer = Lecturer(
+                                  id: "0",
+                                  email: mailController.text,
+                                  password: passwordController.text,
+                                  name: nameController.text,
+                                  isVerified: false,
+                                  isAdmin: false,
+                                );
+                                final result = ref
+                                    .read(dataServiceProvider)
+                                    .addLecturer(lecturer);
+
+                                result.then((value) {
+                                  Fluttertoast.showToast(msg: value.toString());
+
+
+                                },
+                                    onError: (error) {
+                                      Fluttertoast.showToast(
+                                        msg: error.toString(),
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: MyColors.toastColor,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,
+                                      );
+                                    }
+                                );
+
+
+
+                                break;
+
+                              case AccountType.employer:
+                                final employer = Employer(
+                                  id: "0",
+                                  email: mailController.text,
+                                  password: passwordController.text,
+                                  name: nameController.text,
+                                  isVerified: false,
+                                  isAdmin: false,
+                                  isInternshipRemote: false,
+                                  isWorkRemote: false,
+                                );
+
+                                final result = ref
+                                    .read(dataServiceProvider)
                                     .addEmployer(employer);
-                              }
-                              catch (e,s) {
-                                Fluttertoast.showToast(msg: s.toString() ,
-                                    backgroundColor: const Color.fromRGBO(
-                                        66, 66, 66, 100),
+
+                                result.then((value) {
+                                  debugPrint(value.toString());
+                                  Fluttertoast.showToast(msg: value.toString());
+
+
+                                },
+                                    onError: (error) {
+                                      Fluttertoast.showToast(
+                                        msg: error.toString(),
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: MyColors.toastColor,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,
+                                      );
+                                    }
+                                );
+
+
+
+                                break;
+                              default:
+                                Fluttertoast.showToast(
+                                    msg: "You Must Select a Account Type",
+                                    backgroundColor: MyColors.toastColor,
                                     textColor: Colors.white);
-                              }
-                              break;
-                          }
-                        },
-                        child: const Text(Strings.register),
-                      ),
+
+                                break;
+                            }
+                          },
+                          child: const Text(Strings.register)),
                       const SizedBox(
                         width: 20,
                       ),
